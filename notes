@@ -1,0 +1,18 @@
+Remember:
+
+ADM in ID means admin
+LB means librarian
+
+id structure is:
+
+LS
+Library Staff
+00
+Number of Staff
+ADM/LB
+Admin or Librarian
+
+
+also Remember to make id structure for non staff.
+
+to check overdue, write code that checks against dates, or make a better one if team suggests

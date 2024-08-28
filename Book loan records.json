@@ -1,0 +1,28 @@
+{
+    "Records":[
+                {
+                "9780446310789":{
+                "book_name":"To Kill a Mocking Bird",
+                "ISBN":"9780446310789",
+                "loan_status":{
+                    "isloaned":"False",
+                    "loanedBy":"",
+                    "has_returned":"True",
+                    "date_of_loan": "DD/MM/YYYY",
+                    "date_of_return":"DD/MM/YYYY"
+                }
+            },
+            "9781906966133":{
+                "book_name":"The Python Language Reference Manual (Python Manual)",
+                "ISBN":"9781906966133",
+                "loan_status":{
+                    "isloaned":"True",
+                    "loanedBy":"",
+                    "has_returned":"False",
+                    "date_of_loan": "DD/MM/YYYY",
+                    "date_of_return":"DD/MM/YYYY"
+                }
+            }
+        }
+    ]
+}

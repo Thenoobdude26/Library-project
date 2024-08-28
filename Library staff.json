@@ -1,0 +1,18 @@
+{
+    "staff_details":[
+            {
+                "staff_name":"John Doe",
+                "staff_id":"LS01ADM",
+                "staff_email":"JD123@gmail.com",
+                "staff_phone_number":"",
+                "hasAdminperms":"True"
+            },
+            {
+                "staff_name":"Jane Doe",
+                "staff_id":"LS02LB",
+                "staff_email":"",
+                "staff_phone_number":"",
+                "hasOverdue":"False"
+            }
+    ]
+}

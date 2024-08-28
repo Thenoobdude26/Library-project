@@ -1,0 +1,23 @@
+{
+    "Library":{
+        "9780446310789": {
+            "book_details": {
+                "author": "Harper Lee",
+                "book_name": "To Kill a Mocking Bird",
+                "genre":"Southern US Gothic",
+                "published":"11/07/1960",
+                "available":"True"
+            }
+    
+        },
+        "9781906966133": {
+            "book_details": {
+                "author": "Fred L. Drake Jr",
+                "book_name": "The Python Language Reference Manual (Python Manual)",
+                "genre":"Manual",
+                "published":"01/01/2011",
+                "available":"False"
+            }
+        }
+    }
+  }
