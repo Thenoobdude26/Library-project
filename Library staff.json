@@ -1,18 +1,32 @@
 {
-    "staff_details":[
-            {
-                "staff_name":"John Doe",
-                "staff_id":"LS01ADM",
-                "staff_email":"JD123@gmail.com",
-                "staff_phone_number":"",
-                "hasAdminperms":"True"
-            },
-            {
-                "staff_name":"Jane Doe",
-                "staff_id":"LS02LB",
-                "staff_email":"",
-                "staff_phone_number":"",
-                "hasOverdue":"False"
-            }
+    "staff_details": [
+        {
+            "staff_name": "John Doe",
+            "staffId": "LS01ADM",
+            "staff_email": "JD123@gmail.com",
+            "staffPass": "JD1236",
+            "hasAdminperms": "True"
+        },
+        {
+            "staff_name": "Nikhil",
+            "staffId": "LS02LB",
+            "staff_email": "nikhil@geeksforgeeks.org",
+            "staffPass": "Ni66ano",
+            "hasAdminperms": "False"
+        },
+        {
+            "staff_name": "Tatenda Mchomboh",
+            "staffId": "LS03ADM",
+            "staff_email": "tatenda@gmail.com",
+            "staffPass": "tatenda1234",
+            "hasAdminperms": "True"
+        },
+        {
+            "staff_name": "Jerimias",
+            "staffId": "LS04LB",
+            "staff_email": "jerimia@gmail.com",
+            "staffPass": "j123456",
+            "hasAdminperms": "False"
+        }
     ]
 }
