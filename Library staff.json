@@ -27,6 +27,20 @@
             "staff_email": "jerimia@gmail.com",
             "staffPass": "j123456",
             "hasAdminperms": "False"
+        },
+        {
+            "staff_name": "Elyas",
+            "staffId": "LS04ADM",
+            "staff_email": "Elyas1234@gmail.com",
+            "staffPass": "12345678",
+            "hasAdminperms": "True"
+        },
+        {
+            "staff_name": "IKE",
+            "staffId": "LS05ADM",
+            "staff_email": "IKE@MAIL.COM",
+            "staffPass": "123456",
+            "hasAdminperms": "True"
         }
     ]
 }
