@@ -45,10 +45,10 @@ def login():
                         break
                     elif line.startswith('ADM'):
                         print('You are logged in as admin')
-                        pass
+                        break
                     elif line.startswith('LBM'):
                         print('You are logged in as member')
-                        pass
+                        break
     except:
         print('incorrect password or username')
         exit()                    
