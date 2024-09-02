@@ -1,28 +1,25 @@
-def gobackmenu():
-    goback = input('go back to main menu?(Y/N): ')
-    goback = goback.upper()
-    return goback
+#super admin username: SDM001 and password: SDMpassword
 
-def main_menu():
-    print('1. admin')
-    print('2. member')
-    choice = int(input('enter your role:'))
+def start_superadmin():
+    SDM_username = 'SDM001'
+    SDM_password = 'SDMpassword'
+    superadmin_credentials = f"{SDM_username},{SDM_password}\n"
 
-    if choice == 1:
-        admin()
-    elif choice == 2:
-        member()
-    else:
-        exit()
+    # Check if super admin credentials already exist
+    with open("login.txt", 'r') as file:
+        lines = file.readlines()
+        
 
-    if gobackmenu() == 'Y':
-        main_menu()
-    else:
-        exit()
+    if superadmin_credentials not in lines:
+        # Add super admin credentials if they do not exist
+        with open("login.txt", 'a+') as file:
+            file.write(f"{SDM_username},{SDM_password}\n")
+
     
     
 
-def admin():
+def superadmin():
+    print('add a new account:')
     username = input("username: ")
     password = input('password: ')
 
@@ -31,17 +28,33 @@ def admin():
         file.write(f'{username},{password}\n')
         
 
-def member():
-    with open('login.txt', 'r') as file:
-        username = input('username: ')
-        password = input('password: ')
-        for line in file:
-            stored_username, stored_password = line.strip().split(',')
-            if (stored_username == username and stored_password == password):
-                print('correct')
-                break
+def login():
+    print('Please enter your ID and password')
+    username = input('username: ')
+    password = input('password: ')
 
+    try:
+        with open('login.txt', 'r+') as file:
+            for line in file:
+                stored_username, stored_password = line.strip().split(',')
 
-main_menu()
+                if stored_username == username and stored_password == password:
+                    if line.startswith('SDM'):
+                        print('You are logged in as super admin\n')
+                        superadmin()
+                        break
+                    elif line.startswith('ADM'):
+                        print('You are logged in as admin')
+                        pass
+                    elif line.startswith('LBM'):
+                        print('You are logged in as member')
+                        pass
+    except:
+        print('incorrect password or username')
+        exit()                    
+                
+         
+                
 
-        
+start_superadmin()
+login()
