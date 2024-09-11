@@ -213,7 +213,7 @@ def search_member():
          for line in file:
             SU, SB, SG = line.strip().split(', ')
             if SU == Username:
-             print(SU, SB, SG)
+             print(f"username: {SU}, birthday: {SB}, gender: {SG})
 
 
 
