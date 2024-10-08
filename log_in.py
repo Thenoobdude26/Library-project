@@ -10,30 +10,35 @@ import getpass
 def start_superadmin()
     SDM_username = 'SDM001'
     SDM_password = 'SDMpass001'
+    #Super admin (exiting account)
    
     superadmin_credentials = f"{SDM_username},{SDM_password}"
    
     with open('login.txt','a+') as file:
         pass
-    # Check if super admin credentials already exist
+    # Automatically create login.txt
+ 
     with open("login.txt", 'r+') as file:
         lines = file.readlines()
         for line in lines:
             if line.strip() == superadmin_credentials:
                 return
+    #Assures no repeating super admin is in the login.txt
+
+     
    
    
        
  
     if superadmin_credentials not in lines:
-        # Add super admin credentials if they do not exist
+        
         with open("login.txt", 'a+') as file:
             file.write(f'{superadmin_credentials}\n')
- 
+    # Add super admin credentials if they do not exist
    
    
  
-def superadmin():
+def superadmin(): #Super admin function
     print('add a new admin account:')
     username = input("username: ")
     password = input('password: ')
@@ -42,7 +47,7 @@ def superadmin():
        
         file.write(f'{username},{password}\n')
  
-def ADMmenu(): # Admin perms
+def ADMmenu(): #Admin perms
     print ('''you are loged in as admin, enter your selection:
            1. Manage librarian staff
            2. Manage librarian member''')
@@ -62,7 +67,7 @@ def ADMmenu(): # Admin perms
         print('try again')
         ADMmenu()
  
-def LBS():
+def LBS(): # First step is to add new staff
     print('''Welcome to staff management system:
           1. Add new staff
           2. View librarian staff
