@@ -1,7 +1,7 @@
 #super admin username: SDM001 and password: SDMpassword
 # Log in as super admin first to create an admin account
 #step 1: log in as super admin (admin account that existed after running the program)
-#step 2: add a new admin account for new employees (logically speaking)
+#step 2: add a new admin account for new employees (Make sure the username start with ADM) ex. ADM002 ADM001 
 #step 3: log in as the admin account you created
 #step 4: you are now able to unlock admin perms
 import getpass
