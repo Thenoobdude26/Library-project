@@ -5,21 +5,18 @@
 
 #Super admin code will aslo be optimized in due time
 # def start_superadmin():
-#     SDM_username = 'SDM001'
+#     SDM_ID = 'SDM001'
 #     SDM_password = 'SDMpass001'
+#     encryption = SDM_password.encode("utf-8").hex()
 #     #Super admin (exiting account)
+#     superadmin_credentials = {
+#             'SDMID': SDM_ID, 
+#             'Password': encryption
+#                             }
+
+#     with open('SuperA.txt', "a") as t:
+#         t.write(str(superadmin_credentials) + '\n')
    
-#     superadmin_credentials = f"{SDM_username},{SDM_password}"
-   
-#     with open('login.txt','a+') as file:
-#         pass
-#     # Automatically create login.txt
- 
-#     with open("login.txt", 'r+') as file:
-#         lines = file.readlines()
-#         for line in lines:
-#             if line.strip() == superadmin_credentials:
-#                 return
 
 
 def Addstaff():
@@ -112,80 +109,107 @@ def editmember():
                 file.write(line)
 #Note from T to team: Remember to find a way to allow members to change their data and only their data. make a diferent function maybe?
 #Note from T to team, edit members doesn't work  yet, it works but not the way it's supposed to, imma leave fixing it to the admin team :D
-def LBS(): # First step is to add new staff
-    print('''Welcome to staff management system:
+def ADMINTERMINAL(): # First step is to add new staff
+    print('''Welcome to library staff and member management system:
           1. Add new staff
           2. View librarian staff
           3. Search librarian staff
           4. Edit staff
-          5. Remove staff''')
-    LBSchoice = int(input('Enter your selection:'))
-    if LBSchoice == 1:
+          5. Remove staff
+          6. Add new member
+          7. View all member information
+          8. Search member information
+          9. Edit member 
+          10. Delete member''')
+    ADMchoice = int(input('Enter your selection:'))
+    if ADMchoice == 1:
         Addstaff()
-    elif LBSchoice == 2:
+    elif ADMchoice == 2:
         view_staff()
-    elif LBSchoice == 3:
+    elif ADMchoice == 3:
         search_staff()#hmm
-    elif LBSchoice == 4:
+    elif ADMchoice == 4:
         edit_staff()# Will be added soon
-    elif LBSchoice == 5:
+    elif ADMchoice == 5:
         remove_staff()#eh
-
-def LBM():
-    print('''Welcome to member management system 
-          1. Add new member
-          2. View all member information
-          3. Search member information
-          4. Edit member 
-          5. Delete member''')
-    LBMchoice = int(input('Enter your selection : '))
-    if LBMchoice == 1 :
+    elif ADMchoice == 6 :
         Addmember()
-    elif LBMchoice == 2 :
+    elif ADMchoice == 7 :
         view_member()
-    elif LBMchoice == 3 :
+    elif ADMchoice == 8 :
         search_member()
-    elif LBMchoice == 4 :
+    elif ADMchoice == 9 :
         editmember()
-    elif LBMchoice == 5 :
+    elif ADMchoice == 10 :
         delete_member()
-    
 #What is getpass?
 def login():
     print('Please enter your ID and password')
-    username = input('username: ')
-    password = getpass.getpass('password: ')
- 
-    try:
-        with open('login.txt', 'r') as file:
-            for line in file:
-                stored_username, stored_password = line.strip().split(',')
- 
-                if stored_username == username and stored_password == password:
-                    if line.startswith('SDM'):
-                        print('You are logged in as super admin\n')
-                        superadmin()
-                        for i in range(20):
-                            repeat = input('Would you like to add another admin?(Y/N): ')
-                            repeat = repeat.upper()
-                            if repeat == 'Y':
-                                superadmin()
-                            else:
-                                break
-                    elif line.startswith('ADM'):
-                        ADMmenu()
-                       
-                       
-                       
-                        for i in range(20):
-                            repeat = input('Return to admin menu?(Y/N): ')
-                            repeat = repeat.upper()
-                            if repeat == 'Y':
-                                ADMmenu()
-                            else:
-                                break                                  
-    except:
-        print('Something went wrong, try running the program again')
-        exit()      
+    username = input('ID: ')
+    password = input("Password: ")
+    encrypted_password = password.encode("utf-8").hex()  # Encrypt input password to hex to compare with hex in list
 
+    def check_credentials(file_name, user_type):
+        #Quick funtion to check both lists (￣_,￣ )
+        try:
+            with open(file_name, 'r') as file:
+                for line in file:
+                    # Extract the user information and encrypted password from the file
+                    if user_type == 'staff':
+                        user_info = eval(line.strip())["STAFF"]
+                    elif user_type == 'member':
+                        user_info = eval(line.strip())["MEMBER"]
+                    
+                    for user in user_info:
+                        if user['ID'] == username and user['Password'] == encrypted_password:
+                            return user  # Return the user details if match found
+        except FileNotFoundError:
+            print(f"Error: {file_name} not found.")
+            return None
+
+    # Check staff list for the user
+    staff_user = check_credentials('staff_list.txt', 'staff')
+    
+    # Check member list for the user
+    member_user = check_credentials('member_list.txt', 'member')
+
+    # Handle login logic based on whether the user was found in staff or member list
+    if staff_user:
+        # If staff, check if they are an admin or librarian
+        if staff_user['ID'].startswith('SDM'):
+            print('You are logged in as super admin\n')
+            ADMINTERMINAL()
+            for i in range(20):
+                repeat = input('Would you like to add another admin? (Y/N): ').upper()
+                if repeat == 'Y':
+                    ADMINTERMINAL()
+                else:
+                    break
+        elif staff_user['ID'].startswith('ADM'):
+            print('You are logged in as an Admin\n')
+            ADMINTERMINAL()
+            for i in range(20):
+                repeat = input('Return to Admin menu? (Y/N): ').upper()
+                if repeat == 'Y':
+                    ADMINTERMINAL()
+        elif staff_user['ID'].startswith('LB'):
+            print('You are logged in as a librarian\n')
+            '''PLACEHOLDER'''()
+            for i in range(20):
+                repeat = input('Return to librarian menu? (Y/N): ').upper()
+                if repeat == 'Y':
+                    '''PLACEHOLDER'''()
+                else:
+                    break
+
+    elif member_user:
+        print(f'Welcome {member_user["Name"]}, you are logged in as a library member.')
+        # Add member-specific functionality here if needed
+
+    else:
+        print('Invalid credentials. Please try again.')
+
+
+#Note from T: Librarian menu for books will be made
+login()
 #Also, remember to add comments, makes code easier to understand :3
