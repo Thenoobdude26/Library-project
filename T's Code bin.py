@@ -1,3 +1,4 @@
+import datetime
 # #super admin username: SDM001 and password: SDMpassword
 # # Log in as super admin first to create an admin account
 # #step 1: log in as super admin (admin account that existed after running the program)
@@ -55,5 +56,27 @@
 # #      "hasAdminperms":Admin
 # #     }
 
+#Work in progress
+def AddBook():
+    name_book = input('Insert Name: ')
+    ISBN = input('INSERT ISBN: ')  # 
+    author = input('Insert Author/s ')
+    genre = input('Genre: ')
+    publishDate = input('Date Published: ')
+    current_date_time = datetime.datetime.now()
+    addDate = current_date_time.date()#date added to catalogue
+
+    new_book = {
+        'Book Name': name_book, 
+        'ISBN': ISBN, 
+        'Genre': genre, 
+        'Date Published':publishDate, 
+        'Date Added': addDate
+    }
+    
+    with open('Book_catalogue.txt', "a") as t:
+        t.write(str(new_book) + '\n')
+    
+    print(f'{name_book} has been added to the catalogue, under {genre}')
 
 

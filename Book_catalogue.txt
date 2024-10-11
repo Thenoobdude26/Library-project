@@ -1,0 +1,1 @@
+{'Book Name': 'To Kill a Mockibg Bird', 'ISBN': '9780446310789', 'Genre': 'Southern Gothic', 'Date Published': '1960/07/11', 'Date Added': datetime.date(2024, 10, 12)}
