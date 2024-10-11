@@ -1,1 +1,2 @@
-{'MEMBER': [{'Name': 'Tatenda', 'ID': 'M001', 'Email': 'tatenda@library.edu'}, {'Password': '4465657a6e757473'}]}
+{'MEMBER': [{'Name': 'Elyas', 'ID': 'M001', 'Email': 'elyas@library.edu', 'Password': '687565766f736172616269636f73'}]}
+
