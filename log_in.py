@@ -9,25 +9,31 @@
 
 
 def Addstaff():
-     name_staff = input('Insert: ')
-     id_staff = input('Insert: ')
-     email_staff = input('Insert: ')
+     dik = {"STAFF": []}
+     name_staff = input('Insert Name: ')
+     id_staff = input('Insert ID: (ADM-ADMIN, LB-librarian)')
+     email_staff = input('Insert Email: ')
      password_staff = input('Insert: ')
-     AdminPerms = input('Has Admins Y or N.')
-     new_staff = {'Name': name_staff, 'ID': id_staff, 'Email': email_staff,'HasAdminPerms': }
+     AdminPerms = input('Has Admins: ')
+     new_staff = {'Name': name_staff, 'ID': id_staff, 'Email': email_staff,'HasPerms': AdminPerms}
+     dik["STAFF"].append(new_staff)
+     with open('log.txt', "a") as t:  # Use 'with' to handle file opening and closing
+         t.write(str(dik) + '\n')
+     print(f'Added: {name_staff}')
+  
 
 
+Addstaff()
 
-    newfood = {'name': food_name, 'active': True}
-    dik["FoodItem"].append(newfood)  # Append the food dictionary to 'FoodItem' list
-    with open('food.txt', "a") as t:  # Use 'with' to handle file opening and closing
-        t.write(str(dik) + '\n')
-    print(f'Added: {food_name}')
+#     dik["FoodItem"].append(newfood)  # Append the food dictionary to 'FoodItem' list
+#     with open('food.txt', "a") as t:  # Use 'with' to handle file opening and closing
+#         t.write(str(dik) + '\n')
+#     print(f'Added: {food_name}')
 
 
-signin = {"staff_name":staffname,
-     "staffId": staffId,
-     "staff_email": staffemail,
-     "staffPass":staffPass,
-     "hasAdminperms":Admin
-    }
+# signin = {"staff_name":staffname,
+#      "staffId": staffId,
+#      "staff_email": staffemail,
+#      "staffPass":staffPass,
+#      "hasAdminperms":Admin
+#     }
