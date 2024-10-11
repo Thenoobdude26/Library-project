@@ -73,7 +73,7 @@
 <ol>
     <li>Clone this repository.</li>
     <li>Navigate to the project directory.</li>
-    <li>Run <code>python main.py</code> to start the application.</li>
+    <li>Run <code>python Library.py</code> to start the application.</li>
 </ol>
 
 <h2>Data Storage</h2>
