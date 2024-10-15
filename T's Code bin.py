@@ -79,4 +79,48 @@ def AddBook():
     
     print(f'{name_book} has been added to the catalogue, under {genre}')
 
+def view_books():
+    # Read and print staff list from file
+    with open('Book_catalogue.txt', 'r') as file:
+        for line in file:
+            print(line)
 
+def edit
+
+
+def editmember():
+    # Read all lines from the file
+    with open('member_list.txt', 'r') as file:
+        lines = file.readlines()
+    
+    # Get the member ID to edit
+    UserID = input('Enter the ID you want to edit:\n')
+    
+    # Open the file in write mode to update the member info
+    with open('member_list.txt', 'w') as file:
+        for line in lines:
+            if UserID in line:
+                # Extract the current details
+                print(f"Current details: {line.strip()}")
+                
+                # Prompt for new details
+                new_username = input('Enter new Name: ')
+                passwordchange = input('Insert New Password: ')
+                encryption = passwordchange.encode("utf-8").hex()  # Encrypt the new password
+                
+                # Update the member's details
+                new_member = {
+                     'Name': name_member, 
+                     'ID': id_member, 
+                     'Email': email_member, 
+                     'Password': encryption
+                                }
+    
+                file.write(updated_line + '\n')
+            else:
+                # Write the unchanged lines back to the file
+                file.write(line)
+
+    # Store member data in a file
+    with open('member_list.txt', "a") as t:
+        t.write(str(new_member) + '\n')
