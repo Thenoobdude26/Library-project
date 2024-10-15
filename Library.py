@@ -154,6 +154,7 @@ def login():
             print(f"Error: {file_name} not found.")
             return None
 
+    superADM_user = check_credentials('SuperAdmin.txt', 'SuperAdmin')
     # Check staff list for the user
     staff_user = check_credentials('staff_list.txt', 'staff')
 
@@ -163,6 +164,15 @@ def login():
     # Handle login logic based on whether the user was found in staff or member list
     if staff_user:
         # If staff, check if they are an admin or librarian
+
+
+        if superADM_user['ID'].startswith('ADM'):
+            print('You are logged in as an Admin\n')
+            ADMINTERMINAL()
+            for i in range(20):
+                repeat = input('Return to Admin menu? (Y/N): ').upper()
+                if repeat == 'Y':
+                    ADMINTERMINAL()
         if staff_user['ID'].startswith('SDM'):
             print('You are logged in as super admin\n')
             ADMINTERMINAL()
@@ -172,13 +182,7 @@ def login():
                     ADMINTERMINAL()
                 else:
                     break
-        elif staff_user['ID'].startswith('ADM'):
-            print('You are logged in as an Admin\n')
-            ADMINTERMINAL()
-            for i in range(20):
-                repeat = input('Return to Admin menu? (Y/N): ').upper()
-                if repeat == 'Y':
-                    ADMINTERMINAL()
+
         elif staff_user['ID'].startswith('LB'):
             print('You are logged in as a librarian\n')
             print("TBA")
