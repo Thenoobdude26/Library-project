@@ -119,8 +119,10 @@ def add_staff():
     position = input('position: ')
    
     with open('add_staff_member.txt', 'a+') as file:
+        file.seek(0,0)
         file.write(f'{username},{password}\n')
     with open ('staff_info.txt','a+') as file:
+        file.seek(0,0)
         file.write(f'{username}, birthday: {birthday}, gender: {gender}, salary: {salary}, position: {position}\n')
    
  
@@ -204,8 +206,10 @@ def add_member():
 
 
     with open ('add_member.txt', 'a+') as file:
+        file.seek(0,0)
         file.write(f'{username},{password} \n')
     with open ('member_info.txt', 'a+') as file2:
+        file2.seek(0,0)
         file2.write(f'{username}, birthday: {birthday}, gender: {gender}\n')
 
 
