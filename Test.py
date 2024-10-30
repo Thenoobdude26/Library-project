@@ -1,375 +1,207 @@
-#super admin username: SDM001 and password: SDMpassword
-# Log in as super admin first to create an admin account
-import getpass
- 
+#
+# # Guys remember all the code needs to come togethere here, somehow
 
-def start_superadmin():
-    SDM_username = 'SDM001'
-    SDM_password = 'SDMpass001'
-   
-    superadmin_credentials = f"{SDM_username},{SDM_password}"
-   
-    with open('login.txt','a+') as file:
-        pass
-    # Check if super admin credentials already exist
-    with open("login.txt", 'r') as file:
-        lines = file.readlines()
-        for line in lines:
-            if line.strip() == superadmin_credentials:
-                return
-   
-   
-       
- 
-    if superadmin_credentials != lines:
-        # Add super admin credentials if they do not exist
-        with open("login.txt", 'a+') as file:
-            file.write(f'{superadmin_credentials}\n')
- 
-   
-   
- 
-def superadmin():
-    print('add a new admin account:')
-    username = input("username: ")
-    password = input('password: ')
 
-    with open('login.txt', 'r') as file:
-        for line in file:
-            if line.startswith(username):
-                print('account already exist, run the program again')
-                return
-                
- 
-    with open("login.txt", 'a+') as file:
-       
-        file.write(f'{username},{password}\n')
- 
-def ADMmenu(): # Admin perms
-    print ('''
-           1. Manage librarian staff
-           2. Manage librarian member
-           3. logout''')
- 
-    choice = int(input('enter your choice: '))
-   
- 
-    if choice == 1:
-            LBS()
-    elif choice == 2:
-            LBM()
-    elif choice == 3:
-            exit()
-       
-     
-           
-
- 
-def LBS():
-    print('''Welcome to staff management system:
-          1. Add new staff
-          2. View librarian staff
-          3. Search librarian staff
-          4. Edit staff
-          5. Remove staff''')
-    LBSchoice = int(input('Enter your selection:'))
-    if LBSchoice == 1:
-        add_staff()
-    elif LBSchoice == 2:
-        view_staff()
-    elif LBSchoice == 3:
-        search_staff()
-    elif LBSchoice == 4:
-        edit_staff()
-    elif LBSchoice == 5:
-        remove_staff()
-
-def LBM():
-    print('''Welcome to member management system 
-          1. Add new member
-          2. View all member information
-          3. Search member information
-          4. Edit member 
-          5. Delete member''')
-    LBMchoice = int(input('Enter your selection : '))
-    if LBMchoice == 1 :
-        add_member()
-    elif LBMchoice == 2 :
-        view_member()
-    elif LBMchoice == 3 :
-        search_member()
-    elif LBMchoice == 4 :
-        edit_member()
-    elif LBMchoice == 5 :
-        delete_member()
-    elif LBMchoice > 5 or LBMchoice < 1:
-        return
-    
-    
-
-           
- 
-def add_staff():
-    print('add a new account:')
-    username = input("username: ")
-    password = input('password: ')
-    birthday = input('enter birthday(DD/MM/YYYY): ')
-    gender = input('enter gender(male/female): ')
-    salary = input('salary: ')
-    position = input('position: ')
-
-    with open('add_staff_member.txt', 'a+') as file:
-        file.seek(0)
-        for line in file:
-            if line.startswith(username):
-                print('account already exist.\n')
-                return 
-             
-            
-    with open('add_staff_member.txt', 'a+') as file:
-        file.seek(0)
-        file.write(f'{username},{password}\n')
-
-    with open ('staff_info.txt','a+') as file:
-        file.seek(0)
-        file.write(f'{username},{birthday},{gender},{salary},{position}\n')
-   
- 
- 
-def view_staff():
-    with open('staff_info.txt','r') as file:
-        file.seek(0)
-        for line in file:
-            print(line.strip())
- 
-def search_staff():
-        Username = input('enter the ID you want to search:\n ')
-        with open('staff_info.txt', 'r') as file:
-            file.seek(0)
-            for line in file:
-                SU, SB, SG, SS, SP = line.strip().split(',')
-                if SU == Username:
-                    print(f"username: {SU}, birthday: {SB}, gender: {SG}, salary: {SS}, position: {SP}")
-             
-def edit_staff():
-    # Read all lines from the file
-    with open('staff_info.txt', 'r') as file:
-        lines = file.readlines()
-    with open('add_staff_member.txt','r') as file:
-        lines2 = file.readlines()
-    
-    # Get the username to edit
-    edit_username = input('Enter the ID you want to edit:\n ')
-    
-    # Open the file in write mode to update it
-    with open('staff_info.txt', 'w') as file:
-        file.seek(0)
-        for line in lines:
-            if line.startswith(edit_username):
-                lines = line.strip()
-                print(f"Current details: {lines}")
-                new_username = input('Enter new username: ')
-                new_password = input('Enter new password:')
-                birthday = input('Enter new birthday (DD/MM/YYYY): ')
-                gender = input('Enter new gender (male/female): ')
-                salary = input('Enter new salary: ')
-                position = input('Enter new position: ')
-                file.write(f'{new_username}, {birthday}, {gender}, {salary}, {position}\n')
-            else:
-                file.write(line)
-
-    with open('add_staff_member.txt', 'w') as file:
-        file.seek(0)
-        for line in lines2:
-            if line.startswith(edit_username):
-                file.write(f'{new_username}, {new_password}\n')
-            else:
-                file.write(line)
-                
-
-        
- 
-def remove_staff():
-    # read all line in file and save it in lines
-    with open('staff_info.txt', 'r') as file:
-        lines = file.readlines()
-    with open('add_staff_member.txt', 'r') as file2:
-        lines2 = file2.readlines()
- 
-    remove_username = input('Enter the ID you want to remove:\n ')
-   
-    with open('staff_info.txt', 'w') as file:
-       
-        for line in lines:
-            lines = line.strip()
-            if not line.startswith(remove_username):
-                file.write(line)
-    
-    with open('add_staff_member.txt', 'w') as file:
-       
-        for line in lines2:
-            lines = line.strip()
-            if not line.startswith(remove_username):
-                file.write(line)
-               
-           
-
-       
-
-def add_member():
-    print('add a new account')
-    username = input('New username :')
-    password = input('New password :')
-    birthday = input('enter your birthday (DD/MM/YYY) : ')
-    gender = input('enter your gender (male/female) : ')
-
-    with open('add_member.txt','a+') as file1:
-        file1.seek(0)
-        for line in file1:
-            if line.startswith(username):
-                print('username already exist.')
-                return
+# # dear admin team, sorry for touching your code, just a little optimization ~T
 
 
 
+# def Addstaff():
+#     name_staff = input('Insert Name: ')
+#     id_staff = input('Insert ID: (ADM-ADMIN, LB-librarian)')  # ADM001/LB0001
+#     email_staff = input('Insert Email: ')
+#     password_staff = input('Insert Password: ')
+#     AdminPerms = input('Has Admins (Yes/No): ')  # Librarians don't have admin status
+#     encryption = password_staff.encode("utf-8").hex()  # Convert password to hex
+
+#     # Combine staff details and password into one dictionary
+#     new_staff = {
+#         'Name': name_staff,
+#         'ID': id_staff,
+#         'Email': email_staff,
+#         'HasPerms': AdminPerms,
+#         'Password': encryption
+#     }
+#     # Store staff data in a file
+#     with open('staff_list.txt', "a") as t:
+#         t.write(str(new_staff) + '\n')
+
+#     print(f'Added staff: {name_staff}')
 
 
+# def Addmember():
+#     name_member = input('Insert Name: ')
+#     id_member = input('Insert ID: (M###)')  # M001
+#     email_member = input('Insert Email: ')
+#     password_member = input('Insert Password: ')
+#     encryption = password_member.encode("utf-8").hex()  # Convert password to hex
 
-    with open ('add_member.txt', 'a+') as file:
-        file.seek(0)
-        file.write(f'{username},{password}\n')
-        
-    with open ('member_info.txt', 'a+') as file2:
-        file2.seek(0)
-        file2.write(f'{username},{birthday},{gender}\n')
+#     # Combine member details and password into one dictionary
+#     new_member = {
+#         'Name': name_member,
+#         'ID': id_member,
+#         'Email': email_member,
+#         'Password': encryption
+#     }
 
+#     # Store member data in a file
+#     with open('member_list.txt', "a") as t:
+#         t.write(str(new_member) + '\n')
 
-def view_member():
-    with open ('member_info.txt', 'r') as file:
-        for line in file:
-            print(line.strip())
-
-
-def search_member():
-    with open('member_info.txt','r') as file:
-        Username = input('enter the ID you want to search:\n ')
-        for line in file:
-            SU, SB, SG = line.strip().split(',')
-            if SU == Username:
-                print(f"username: {SU}, birthday: {SB}, gender: {SG}")
+#     print(f'Added member: {name_member}')
 
 
-
-def edit_member():
-     # Read all lines from the file
-    with open('member_info.txt', 'r') as file:
-        lines = file.readlines()
-    with open('add_member.txt','r') as file:
-        lines2 = file.readlines()
-   
-    # Get the username to edit
-    edit_username = input('Enter the ID you want to edit:\n ')
-   
-    # Open the file in write mode to update it
-    with open('member_info.txt', 'w') as file:
-        for line in lines:
-            if line.startswith(edit_username):
-                lines = line.strip()
-                print(f"Current details: {lines}")
-                new_username = input('Enter new username: ')
-                new_password = input('Enter new password: ')
-                birthday = input('Enter new birthday (DD/MM/YYYY): ')
-                gender = input('Enter new gender (male/female): ')
-                file.write(f'{new_username},{birthday},{gender}\n')
-            else:
-                file.write(line)
-
-    with open('add_member.txt', 'w') as file:
-        file.seek(0)
-        for line in lines2:
-            if line.startswith(edit_username):
-                file.write(f'{new_username}, {new_password}\n')
-            else:
-                file.write(line)
+# def view_staff():
+#     # Read and print staff list from file
+#     with open('staff_list.txt', 'r') as file:
+#         for line in file:
+#             print(line)
 
 
-def delete_member():
-    # read all line in file and save it in lines
-    with open('member_info.txt', 'r') as file:
-        lines = file.readlines()
-    with open('add_member.txt', 'r') as file2:
-        lines2 = file2.readlines()
- 
-    remove_username = input('Enter the ID you want to remove:\n ')
-   
-    with open('member_info.txt', 'w') as file:
-       
-        for line in lines:
-            lines = line.strip()
-            if not line.startswith(remove_username):
-                file.write(line)
-               
-           
-    with open('login','w') as file2:
-        for line in lines2:
-            file2line = line.strip()
-            if not remove_username.startswith(remove_username):
-                file2.write(line)
-    
-
-    
-                
+# def view_member():
+#     # Read and print staff list from file
+#     with open('member_list.txt', 'r') as file:
+#         for line in file:
+#             print(line)
 
 
+# def editmember():
+#     # Read all lines from the file
+#     with open('member_list.txt', 'r') as file:
+#         lines = file.readlines()
+
+#     # Get the member ID to edit
+#     UserID = input('Enter the ID you want to edit:\n')
+
+#     # Open the file in write mode to update the member info
+#     with open('member_list.txt', 'w') as file:
+#         for line in lines:
+#             if UserID in line:
+#                 # Extract the current details
+#                 print(f"Current details: {line.strip()}")
+
+#                 # Prompt for new details
+#                 new_username = input('Enter new Name: ')
+#                 passwordchange = input('Insert New Password: ')
+#                 encryption = passwordchange.encode("utf-8").hex()  # Encrypt the new password
+
+#                 # Update the member's details
+#                 updated_line = line.replace(line.strip(), f"Name: {new_username}, Password: {encryption}")
+#                 file.write(updated_line + '\n')
+#             else:
+#                 # Write the unchanged lines back to the file
+#                 file.write(line)
 
 
+# # Note from T to team: Remember to find a way to allow members to change their data and only their data. make a diferent function maybe?
+# # Note from T to team, edit members doesn't work  yet, it works but not the way it's supposed to, imma leave fixing it to the admin team :D
+# def ADMINTERMINAL():  # First step is to add new staff
+#     print('''Welcome to library staff and member management system:
+#           1. Add new staff
+#           2. View librarian staff
+#           3. Search librarian staff
+#           4. Edit staff
+#           5. Remove staff
+#           6. Add new member
+#           7. View all member information
+#           8. Search member information
+#           9. Edit member 
+#           10. Delete member''')
+#     ADMchoice = int(input('Enter your selection:'))
+#     if ADMchoice == 1:
+#         Addstaff()
+#     elif ADMchoice == 2:
+#         view_staff()
+#     elif ADMchoice == 3:
+#         search_staff()  # hmm
+#     elif ADMchoice == 4:
+#         edit_staff()  # Will be added soon
+#     elif ADMchoice == 5:
+#         remove_staff()  # eh
+#     elif ADMchoice == 6:
+#         Addmember()
+#     elif ADMchoice == 7:
+#         view_member()
+#     elif ADMchoice == 8:
+#         search_member()
+#     elif ADMchoice == 9:
+#         editmember()
+#     elif ADMchoice == 10:
+#         delete_member()
 
 
-def login():
-    print('Please enter your ID and password')
-    username = input('username: ')
-    password = getpass.getpass('password: ')
- 
-    try:
-        with open('login.txt', 'r') as file:
-            for line in file:
-                stored_username, stored_password = line.strip().split(',')
- 
-                if stored_username == username and stored_password == password:
-                    if line.startswith('SDM'):
-                        print('You are logged in as super admin\n')
-                        superadmin()
-                        for i in range(20):
-                            repeat = input('Would you like to add another admin?(Y/N): ')
-                            repeat = repeat.upper()
-                            if repeat == 'Y':
-                                superadmin()
-                            else:
-                                return
+# # What is getpass?
+# def login():
+#     print('Please enter your ID and password')
+#     username = input('ID: ')
+#     password = input("Password: ")
+#     encrypted_password = password.encode("utf-8").hex()  # Encrypt input password to hex to compare with hex in list
 
-                    elif line.startswith('ADM'):
-                        print(f'you are loged in as {username}, enter your selection:')
-                        ADMmenu()
-                        
-                       
-                       
-                       
-                        for i in range(20):
-                            repeat = input('Return to admin menu?(Y/N): ')
-                            repeat = repeat.upper()
-                            if repeat == 'Y':
-                                ADMmenu()
-                            else:
-                                return
-                                 
-            else:
-                print('incorrect username or password')   
-                exit()                          
-    except:
-        print('The program has been exited')
-        exit()                    
+#     def check_credentials(file_name, user_type):
+#         # Quick funtion to check both lists (￣_,￣ )
+#         try:
+#             with open(file_name, 'r') as file:
+#                 for line in file:
+#                     # Extract the user information and encrypted password from the file
+#                     if user_type == 'staff':
+#                         user_info = eval(line.strip())["STAFF"]
+#                     elif user_type == 'member':
+#                         user_info = eval(line.strip())["MEMBER"]
 
- 
-start_superadmin()
-login()
- 
+#                     for user in user_info:
+#                         if user['ID'] == username and user['Password'] == encrypted_password:
+#                             return user  # Return the user details if match found
+#         except FileNotFoundError:
+#             print(f"Error: {file_name} not found.")
+#             return None
+
+#     superADM_user = check_credentials('SuperAdmin.txt', 'SuperAdmin')
+#     # Check staff list for the user
+#     staff_user = check_credentials('staff_list.txt', 'staff')
+
+#     # Check member list for the user
+#     member_user = check_credentials('member_list.txt', 'member')
+
+#     # Handle login logic based on whether the user was found in staff or member list
+#     if staff_user:
+#         # If staff, check if they are an admin or librarian
+
+
+#         if superADM_user['ID'].startswith('ADM'):
+#             print('You are logged in as an Admin\n')
+#             ADMINTERMINAL()
+#             for i in range(20):
+#                 repeat = input('Return to Admin menu? (Y/N): ').upper()
+#                 if repeat == 'Y':
+#                     ADMINTERMINAL()
+#         if staff_user['ID'].startswith('SDM'):
+#             print('You are logged in as super admin\n')
+#             ADMINTERMINAL()
+#             for i in range(20):
+#                 repeat = input('Would you like to add another admin? (Y/N): ').upper()
+#                 if repeat == 'Y':
+#                     ADMINTERMINAL()
+#                 else:
+#                     break
+
+#         elif staff_user['ID'].startswith('LB'):
+#             print('You are logged in as a librarian\n')
+#             print("TBA")
+#             for i in range(20):
+#                 repeat = input('Return to librarian menu? (Y/N): ').upper()
+#                 if repeat == 'Y':
+#                     print("TBA")
+#                 else:
+#                     break
+
+#     elif member_user:
+#         print(f'Welcome {member_user["Name"]}, you are logged in as a library member.')
+#         # Add member-specific functionality here if needed
+
+#     else:
+#         print('Invalid credentials. Please try again.')
+
+
+# # Note from T: Librarian menu for books will be made
+# login()
+# # Also, remember to add comments, makes code easier to understand :3

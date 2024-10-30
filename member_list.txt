@@ -1,2 +1,0 @@
-{'MEMBER': [{'Name': 'Elyas', 'ID': 'M001', 'Email': 'elyas@library.edu', 'Password': '687565766f736172616269636f73'}]}
-
