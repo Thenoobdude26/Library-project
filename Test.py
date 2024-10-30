@@ -155,7 +155,7 @@
 #             print(f"Error: {file_name} not found.")
 #             return None
 
-#     superADM_user = check_credentials('SuperAdmin.txt', 'SuperAdmin')
+#     superADM_user = check_credentials('Admin.txt', 'SuperAdmin')
 #     # Check staff list for the user
 #     staff_user = check_credentials('staff_list.txt', 'staff')
 

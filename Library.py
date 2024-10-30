@@ -9,10 +9,10 @@ def start_superadmin():
    
     superadmin_credentials = f"{SDM_username},{SDM_password}"
    
-    with open('login.txt','a+') as file:
+    with open('Admin.txt', 'a+') as file:
         pass
     # Check if super admin credentials already exist
-    with open("login.txt", 'r') as file:
+    with open("Admin.txt", 'r') as file:
         lines = file.readlines()
         for line in lines:
             if line.strip() == superadmin_credentials:
@@ -23,7 +23,7 @@ def start_superadmin():
  
     if superadmin_credentials != lines:
         # Add super admin credentials if they do not exist
-        with open("login.txt", 'a+') as file:
+        with open("Admin.txt", 'a+') as file:
             file.write(f'{superadmin_credentials}\n')
  
    
@@ -34,14 +34,14 @@ def superadmin():
     username = input("username: ")
     password = input('password: ')
 
-    with open('login.txt', 'r') as file:
+    with open('Admin.txt', 'r') as file:
         for line in file:
             if line.startswith(username):
                 print('account already exist, run the program again')
                 return
                 
  
-    with open("login.txt", 'a+') as file:
+    with open("Admin.txt", 'a+') as file:
        
         file.write(f'{username},{password}\n')
  
@@ -118,7 +118,7 @@ def add_staff():
     salary = input('salary: ')
     position = input('position: ')
 
-    with open('add_staff_member.txt', 'a+') as file:
+    with open('staff_list.txt', 'a+') as file:
         file.seek(0)
         for line in file:
             if line.startswith(username):
@@ -126,25 +126,25 @@ def add_staff():
                 return 
              
             
-    with open('add_staff_member.txt', 'a+') as file:
+    with open('staff_list.txt', 'a+') as file:
         file.seek(0)
         file.write(f'{username},{password}\n')
 
-    with open ('staff_info.txt','a+') as file:
+    with open ('Staff_info.txt','a+') as file:
         file.seek(0)
         file.write(f'{username},{birthday},{gender},{salary},{position}\n')
    
  
  
 def view_staff():
-    with open('staff_info.txt','r') as file:
+    with open('Staff_info.txt','r') as file:
         file.seek(0)
         for line in file:
             print(line.strip())
  
 def search_staff():
         Username = input('enter the ID you want to search:\n ')
-        with open('staff_info.txt', 'r') as file:
+        with open('Staff_info.txt', 'r') as file:
             file.seek(0)
             for line in file:
                 SU, SB, SG, SS, SP = line.strip().split(',')
@@ -205,7 +205,7 @@ def remove_staff():
             if not line.startswith(remove_username):
                 file.write(line)
     
-    with open('add_staff_member.txt', 'w') as file:
+    with open('staff_list.txt', 'w') as file:
        
         for line in lines2:
             lines = line.strip()
@@ -223,7 +223,7 @@ def add_member():
     birthday = input('enter your birthday (DD/MM/YYY) : ')
     gender = input('enter your gender (male/female) : ')
 
-    with open('add_member.txt','a+') as file1:
+    with open('member_list.txt','a+') as file1:
         file1.seek(0)
         for line in file1:
             if line.startswith(username):
@@ -235,7 +235,7 @@ def add_member():
 
 
 
-    with open ('add_member.txt', 'a+') as file:
+    with open ('member_list.txt', 'a+') as file:
         file.seek(0)
         file.write(f'{username},{password}\n')
         
