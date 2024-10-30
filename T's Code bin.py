@@ -67,6 +67,7 @@ def AddBook():
     publishDate = input('Date Published: ')
     current_date_time = datetime.datetime.now()
     addDate = current_date_time.date()#date added to catalogue
+    Available = "Yes"
 
 
     new_book = {
@@ -76,7 +77,7 @@ def AddBook():
         'Genre': genre, 
         'Date Published':publishDate, 
         'Date Added': addDate,
-        'Available': 'Yes'
+        'Available':Available
     }
     
     with open('Book_catalogue.txt', "a") as t:
@@ -126,4 +127,29 @@ def loan_book():
     with open('loan_logs.txt', 'a') as log_file:
         log_file.write(f"ISBN: {isbn}, Member ID: {loaner}, Date Loaned: {dateloaned}\n")
 
-AddBook()
+
+def return_book():
+    print("Insert ISBN of the book to be returned: ")
+    isbn = input(" ")
+    print("Member ID of returner: ")
+    returner = input(" ")
+    print("Date Returned (YYYY/MM/DD): ")
+    datereturned = input("")
+
+    with open('Book_catalogue.txt', 'r') as file:
+        lines = file.readlines()
+
+    with open('Book_catalogue.txt', 'w') as file:
+        for line in lines:
+            if isbn in line and "'Available': 'No'" in line:
+                book = eval(line.strip())
+                book['Available'] = 'Yes'
+                file.write(str(book) + '\n')
+                print(f"Book with ISBN {isbn} has been returned.")
+            else:
+                file.write(line)
+
+    with open('return_logs.txt', 'a') as log_file:
+        log_file.write(f"ISBN: {isbn}, Member ID: {returner}, Date Returned: {datereturned}\n")
+# AddBook()
+loan_book()
