@@ -1,7 +1,7 @@
 #super admin username: SDM001 and password: SDMpassword
 # Log in as super admin first to create an admin account
 import getpass
- 
+
 
 def start_superadmin():
     SDM_username = 'SDM001'

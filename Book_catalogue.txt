@@ -1,2 +1,2 @@
-{'Book Name': 'To Kill A Mocking Bird', 'ISBN': '9780446310789', 'Author': '', 'Genre': 'Southern Gothic', 'Date Published': '1960/07/11', 'Date Added': datetime.date(2024, 10, 30), 'Available': 'Yes'}
+{'Book Name': 'To Kill A Mocking Bird', 'ISBN': '9780446310789', 'Author': 'Harper lee', 'Genre': 'Southern Gothic', 'Date Published': '1960/07/11', 'Date Added': datetime.date(2024, 10, 30), 'Available': 'Yes'}
 {'Book Name': 'The Python Language Reference Manual', 'ISBN': '9781906966133', 'Author': 'Fred L. Drake Jr', 'Genre': 'Programming', 'Date Published': '2011/01/01', 'Date Added': datetime.date(2024, 10, 30), 'Available': 'Yes'}

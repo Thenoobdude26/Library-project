@@ -70,7 +70,6 @@ def loan_book():
     with open('loan_logs.txt', 'a') as log_file:
         log_file.write(f"ISBN: {isbn}, Member ID: {loaner}, Date Loaned: {dateloaned}\n")
 
-
 def return_book():
     print("Insert ISBN of the book to be returned: ")
     isbn = input(" ")
@@ -95,10 +94,42 @@ def return_book():
     with open('loan_logs.txt', 'a') as log_file:
         log_file.write(f"ISBN: {isbn}, Member ID: {returner}, Date Returned: {datereturned}\n")
 
+def edit_catalogue():
+    print("Insert ISBN of the book to be edited: ")
+    isbn = input(" ")
+    print("What would you like to edit? (Name/Author/Genre/Date Published/Available): ")
+    field = input(" ")
+    print("What would you like to change it to?: ")
+    new_value = input(" ")
+
+    with open('Book_catalogue.txt', 'r') as file:
+        lines = file.readlines()
+
+    with open('Book_catalogue.txt', 'w') as file:
+        for line in lines:
+            if isbn in line:
+                book = eval(line.strip())
+                book[field] = new_value
+                file.write(str(book) + '\n')
+                print(f"Book with ISBN {isbn} has been updated.")
+            else:
+                file.write(line)
 def view_loan_logs():
+    loaners = []
+
     with open('loan_logs.txt', 'r') as file:
         for line in file:
-            print(line)
+            if "Member ID" in line:
+                loaners.append(line.strip())
+
+    if not loaners:
+        print("No loaners found.")
+        return
+
+    for loaner in loaners:
+        print(loaner)
+
+
 
 def search_loan():
     print("Insert ID: ")
@@ -122,7 +153,7 @@ def search_loan():
 
     if most_recent_loan:
         print(most_recent_loan)
-        loan_date_str = most_recent_loan.split("Date Loaned: ")[1]
+        loan_date_str = most_recent_loan.split("Date Loaned: ")[1].split(",")[0]
         loan_date = datetime.datetime.strptime(loan_date_str, "%Y/%m/%d").date()
         current_date = datetime.datetime.now().date()
         days_since_loan = (current_date - loan_date).days
@@ -152,4 +183,40 @@ def search_loan():
     else:
         print("No recent loans found.")
 
+def main():
+    while True:
+        print("\nWelcome to the Library Management System")
+        print("1. Add Book")
+        print("2. View All Books")
+        print("3. Search Book")
+        print("4. Loan Book")
+        print("5. Return Book")
+        print("6. Edit Catalogue")
+        print("7. View Loan Logs")
+        print("8. Search Loan")
+        print("9. Exit")
+        choice = input("Enter your choice: ")
 
+        if choice == '1':
+            AddBook()
+        elif choice == '2':
+            view_Allbooks()
+        elif choice == '3':
+            search_book()
+        elif choice == '4':
+            loan_book()
+        elif choice == '5':
+            return_book()
+        elif choice == '6':
+            edit_catalogue()
+        elif choice == '7':
+            view_loan_logs()
+        elif choice == '8':
+            search_loan()
+        elif choice == '9':
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+
+search_loan()
