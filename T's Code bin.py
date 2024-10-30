@@ -58,6 +58,8 @@ import datetime
 
 #Work in progress
 def AddBook():
+    print("Insert Book details Below: ")
+    print("------------------------------")
     name_book = input('Insert Name: ')
     ISBN = input('INSERT ISBN: ')  # 
     author = input('Insert Author/s ')
@@ -66,12 +68,15 @@ def AddBook():
     current_date_time = datetime.datetime.now()
     addDate = current_date_time.date()#date added to catalogue
 
+
     new_book = {
         'Book Name': name_book, 
         'ISBN': ISBN, 
+        'Author': author,
         'Genre': genre, 
         'Date Published':publishDate, 
-        'Date Added': addDate
+        'Date Added': addDate,
+        'Available': 'Yes'
     }
     
     with open('Book_catalogue.txt', "a") as t:
@@ -79,48 +84,46 @@ def AddBook():
     
     print(f'{name_book} has been added to the catalogue, under {genre}')
 
-def view_books():
+def view_Allbooks():
     # Read and print staff list from file
     with open('Book_catalogue.txt', 'r') as file:
         for line in file:
             print(line)
 
-def edit
+def search_book():
+    print("What book are you looking for?: ")
+    search_term = input(" ")
+    with open('Book_catalogue.txt', 'r') as file:
+        found = False
+        for line in file:
+            if search_term.lower() in line.lower():
+                print(line)
+                found = True
+        if not found:
+            print("No matching books found.")
 
+def loan_book():
+    print("Insert ISBN of the book to be loaned: ")
+    isbn = input(" ")
+    print("Member ID of loaner: ")
+    loaner = input(" ")
+    print("Date Loaned (YYYY/MM/DD): ")
+    dateloaned = input("")
 
-def editmember():
-    # Read all lines from the file
-    with open('member_list.txt', 'r') as file:
+    with open('Book_catalogue.txt', 'r') as file:
         lines = file.readlines()
     
-    # Get the member ID to edit
-    UserID = input('Enter the ID you want to edit:\n')
-    
-    # Open the file in write mode to update the member info
-    with open('member_list.txt', 'w') as file:
+    with open('Book_catalogue.txt', 'w') as file:
         for line in lines:
-            if UserID in line:
-                # Extract the current details
-                print(f"Current details: {line.strip()}")
-                
-                # Prompt for new details
-                new_username = input('Enter new Name: ')
-                passwordchange = input('Insert New Password: ')
-                encryption = passwordchange.encode("utf-8").hex()  # Encrypt the new password
-                
-                # Update the member's details
-                new_member = {
-                     'Name': name_member, 
-                     'ID': id_member, 
-                     'Email': email_member, 
-                     'Password': encryption
-                                }
-    
-                file.write(updated_line + '\n')
+            if isbn in line and "'Available': 'Yes'" in line:
+                book = eval(line.strip())
+                book['Available'] = 'No'
+                file.write(str(book) + '\n')
+                print(f"Book with ISBN {isbn} has been loaned out.")
             else:
-                # Write the unchanged lines back to the file
                 file.write(line)
+    
+    with open('loan_logs.txt', 'a') as log_file:
+        log_file.write(f"ISBN: {isbn}, Member ID: {loaner}, Date Loaned: {dateloaned}\n")
 
-    # Store member data in a file
-    with open('member_list.txt', "a") as t:
-        t.write(str(new_member) + '\n')
+AddBook()
