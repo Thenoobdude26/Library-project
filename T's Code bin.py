@@ -149,7 +149,7 @@ def return_book():
             else:
                 file.write(line)
 
-    with open('return_logs.txt', 'a') as log_file:
+    with open('loan_logs.txt', 'a') as log_file:
         log_file.write(f"ISBN: {isbn}, Member ID: {returner}, Date Returned: {datereturned}\n")
 # AddBook()
-loan_book()
+return_book()
