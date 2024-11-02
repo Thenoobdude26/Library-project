@@ -340,6 +340,22 @@ def loan_book():
     dateloaned = input("")
     loanID = "LID" + dateloaned + loaner + isbn
 
+    # Check if the member has already loaned 5 books that are not returned
+    loan_count = 0
+    with open('loan_logs.txt', 'r') as loan_file:
+        for line in loan_file:
+            if f"Member ID: {loaner}" in line:
+                loan_count += 1
+
+    with open('return_logs.txt', 'r') as return_file:
+        for line in return_file:
+            if f"Member ID: {loaner}" in line:
+                loan_count -= 1
+
+    if loan_count >= 5:
+        print("This member has already loaned 5 books and cannot loan another.")
+        return
+
     with open('Book_catalogue.txt', 'r') as file:
         lines = file.readlines()
 
