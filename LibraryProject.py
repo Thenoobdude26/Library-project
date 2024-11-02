@@ -1,4 +1,4 @@
-# super admin username: SDM001 and password: SDMpassword
+# super admin username: SDM001 and password: SDMpass001
 # Log in as super admin first to create an admin account
 import datetime
 import time
@@ -8,7 +8,55 @@ def encrypt_password(password):
     #changed from putting them into Hex to Base64, more secure
 
 
+
 #important Functions below
+def add_admin():
+    print('add a new admin account:')
+    username = input("username: ")
+    password = input('password: ')
+    encrypted_password = encrypt_password(password)
+
+    with open('login.txt', 'r') as file:
+        for line in file:
+            if line.startswith(username):
+                print('account already exist, run the program again')
+                return
+
+    with open("login.txt", 'a+') as file:
+        file.write(f'{username},{encrypted_password}\n')
+    print('Admin account created successfully')
+    print('Returning to main menu')
+    time.sleep(1)
+    print(".")
+    time.sleep(1)
+    print(".")
+    time.sleep(1)
+    print(".")
+    superadminmenu()
+def view_admin():
+    with open('login.txt', 'r') as file:
+        for line in file:
+            print(line)
+    print('Type Y to return to main menu')
+    choice = input(' ')
+    if choice == 'Y':
+        print("returning to main menu")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        superadminmenu()
+    else:
+        print("I think you meant Y. returning to menu")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        superadminmenu()
 def start_superadmin():
     SDM_username = 'SDM001'
     SDM_password = 'SDMpass001'
@@ -213,7 +261,7 @@ def AddBook():
     genre = input('Genre: ')
     publishDate = input('Date Published: ')
     current_date_time = datetime.datetime.now()
-    addDate = current_date_time.date()  # date added to catalogue
+    addDate = current_date_time.strftime("%Y-%m-%d")  # formating date as string because of old bugs
     Available = "Yes"
 
     new_book = {
@@ -230,12 +278,36 @@ def AddBook():
         t.write(str(new_book) + '\n')
 
     print(f'{name_book} has been added to the catalogue, under {genre}')
+    print("Would you like to add another book?")
+    choice = input('Y/N: ')
+    if choice == 'Y':
+        AddBook()
+    else:
+        print("Returning to main menu.")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        librarian_menu()
 def view_Allbooks():
-    # Read and print staff list from file
+    # Show all books and their details
     with open('Book_catalogue.txt', 'r') as file:
         for line in file:
             print(line)
+    print("Press any key to return to the main menu.")
+    input()
+    print("Returning to main menu.")
+    time.sleep(1)
+    print(".")
+    time.sleep(1)
+    print(".")
+    time.sleep(1)
+    print(".")
+    librarian_menu()
 def search_book():
+    #Seacrch only uses ISBN. for exact seacrches. shows full book details
     print("What book are you looking for?: ")
     search_term = input(" ")
     with open('Book_catalogue.txt', 'r') as file:
@@ -246,6 +318,19 @@ def search_book():
                 found = True
         if not found:
             print("No matching books found.")
+        print("Would you like to search for another book?")
+        choice = input('Y/N: ')
+        if choice == 'Y':
+            search_book()
+        else:
+            print("Returning to main menu.")
+            time.sleep(1)
+            print(".")
+            time.sleep(1)
+            print(".")
+            time.sleep(1)
+            print(".")
+            librarian_menu()
 def loan_book():
     print("Insert ISBN of the book to be loaned: ")
     isbn = input(" ")
@@ -270,6 +355,20 @@ def loan_book():
 
     with open('loan_logs.txt', 'a') as log_file:
         log_file.write(f"LOANID: {loanID}, ISBN: {isbn}, Member ID: {loaner}, Date Loaned: {dateloaned}\n")
+
+    print("Would you like to return to the main menu?")
+    choice = input('Y/N: ')
+    if choice == 'Y':
+        print("Returning to main menu.")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        librarian_menu()
+    else:
+        loan_book()
 def return_book():
     print("Insert ISBN of the book to be returned: ")
     isbn = input(" ")
@@ -294,6 +393,20 @@ def return_book():
 
     with open('return_logs.txt', 'a') as log_file:
         log_file.write(f" RETURNID: {returnID}, ISBN: {isbn}, Member ID: {returner}, Date Returned: {datereturned}\n")
+
+    print("Would you like to return to the main menu?")
+    choice = input('Y/N: ')
+    if choice == 'Y':
+        print("Returning to main menu.")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        librarian_menu()
+    else:
+        return_book()
 def edit_catalogue():
     print("Insert ISBN of the book to be edited: ")
     isbn = input(" ")
@@ -314,6 +427,19 @@ def edit_catalogue():
                 print(f"Book with ISBN {isbn} has been updated.")
             else:
                 file.write(line)
+    print("Would you like to return to the main menu?")
+    choice = input('Y/N: ')
+    if choice == 'Y':
+        print("Returning to main menu.")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        librarian_menu()
+    else:
+        edit_catalogue()
 def view_logs():
     print("Loan Logs:")
     with open('loan_logs.txt', 'r') as file:
@@ -324,6 +450,17 @@ def view_logs():
     with open('return_logs.txt', 'r') as file:
         for line in file:
             print(line.strip())
+
+    print("Press any key to return to the main menu.")
+    input()
+    print("Returning to main menu.")
+    time.sleep(1)
+    print(".")
+    time.sleep(1)
+    print(".")
+    time.sleep(1)
+    print(".")
+    librarian_menu()
 def search_loan():
     print("Insert Member ID: ")
     memberid = input(" ")
@@ -336,7 +473,16 @@ def search_loan():
 
     if not loans:
         print("No Loans found for user.")
-        return
+        print("Press any key to return to the main menu.")
+        input()
+        print("Returning to main menu.")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        librarian_menu()
 
     # Find the most recent loan
     most_recent_loan = None
@@ -378,9 +524,29 @@ def search_loan():
                 else:
                     fee = 10
                 print(f"Late fee: {fee} RM")
+                print("Press any key to return to the main menu.")
+                input()
+                print("Returning to main menu.")
+                time.sleep(1)
+                print(".")
+                time.sleep(1)
+                print(".")
+                time.sleep(1)
+                print(".")
+                librarian_menu()
             else:
                 print("No late fee.")
             print(f"Date Returned: {return_date_str}")
+            print("Press any key to return to the main menu.")
+            input()
+            print("Returning to main menu.")
+            time.sleep(1)
+            print(".")
+            time.sleep(1)
+            print(".")
+            time.sleep(1)
+            print(".")
+            librarian_menu()
         else:
             days_left = 14 - days_since_loan
             if days_left > 0:
@@ -400,8 +566,28 @@ def search_loan():
                 else:
                     fee = 10
                 print(f"Late fee: {fee} RM")
+                print("Press any key to return to the main menu.")
+                input()
+                print("Returning to main menu.")
+                time.sleep(1)
+                print(".")
+                time.sleep(1)
+                print(".")
+                time.sleep(1)
+                print(".")
+                librarian_menu()
     else:
         print("No recent loans found.")
+        print("Press any key to return to the main menu.")
+        input()
+        print("Returning to main menu.")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        librarian_menu()
 def edit_logs():
     print("Insert Loan ID: ")
     loanid = input(" ")
@@ -433,6 +619,7 @@ def edit_logs():
                 loan[field] = new_value
                 file.write(str(loan) + '\n')
                 print(f"Loan with ID {loanid} has been updated.")
+
             else:
                 file.write(line)
 def bookviewer_m(member_id):
@@ -450,7 +637,7 @@ def bookviewer_m(member_id):
             book = eval(line.strip())
             if book['ISBN'] in borrowed_books and book['Available'] == 'No':
                 borrowed_books_titles.append(book['Book Name'])
-    return borrowed_books_titles
+    return {borrowed_books_titles}
 def booksearch_m(member_id):
     print('''
     ==========================
@@ -495,6 +682,15 @@ def booksearch_m(member_id):
                     booksearch_m(member_id)
                 else:
                     member_menu(member_id)
+                    print("Returning to main menu.")
+                    time.sleep(1)
+                    print(".")
+                    time.sleep(1)
+                    print(".")
+                    time.sleep(1)
+                    print(".")
+                    member_menu(member_id)
+
             elif choice == 2 and search_term in book['Genre'].strip().lower():
                 print(book)
                 found = True
@@ -504,6 +700,15 @@ def booksearch_m(member_id):
                     booksearch_m(member_id)
                 else:
                     member_menu(member_id)
+                    print("Returning to main menu.")
+                    time.sleep(1)
+                    print(".")
+                    time.sleep(1)
+                    print(".")
+                    time.sleep(1)
+                    print(".")
+                    member_menu(member_id)
+
             elif choice == 3 and search_term in book['Author'].strip().lower():
                 print(book)
                 found = True
@@ -513,6 +718,15 @@ def booksearch_m(member_id):
                     booksearch_m(member_id)
                 else:
                     member_menu(member_id)
+                    print("Returning to main menu.")
+                    time.sleep(1)
+                    print(".")
+                    time.sleep(1)
+                    print(".")
+                    time.sleep(1)
+                    print(".")
+                    member_menu(member_id)
+
             elif choice == 4 and search_term in book['ISBN'].strip().lower():
                 print(book)
                 found = True
@@ -521,6 +735,13 @@ def booksearch_m(member_id):
                 if choice2 == 'Y':
                     booksearch_m(member_id)
                 else:
+                    print("Returning to main menu.")
+                    time.sleep(1)
+                    print(".")
+                    time.sleep(1)
+                    print(".")
+                    time.sleep(1)
+                    print(".")
                     member_menu(member_id)
 
     if not found:
@@ -529,6 +750,13 @@ def booksearch_m(member_id):
         if choice3 == 'Y':
             booksearch_m(member_id)
         else:
+            print("Returning to main menu.")
+            time.sleep(1)
+            print(".")
+            time.sleep(1)
+            print(".")
+            time.sleep(1)
+            print(".")
             member_menu(member_id)
 def viewfees_m(member_id):
     total_fees = 0
@@ -589,7 +817,14 @@ def viewfees_m(member_id):
                 total_fees += calculate_fee(days_late)
 
     print(f"Total fees: {total_fees} RM")
-    time.sleep(2)
+    print("Press any key to return to the main menu.")
+    input()
+    time.sleep(1)
+    print(".")
+    time.sleep(1)
+    print(".")
+    time.sleep(1)
+    print(".") #using sleep and dots to make code look cooler
     member_menu(member_id)
 def update_info(member_id):
     print('''
@@ -635,44 +870,48 @@ def update_info(member_id):
         print('Name updated successfully.')
 
     elif choice == 3:
+        print('Returning to main menu.')
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".") #using sleep and dots to make code look cooler
         member_menu(member_id)
         return
 
     else:
         print('Invalid choice. Please try again.')
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".")
+        time.sleep(1)
+        print(".") #using sleep and dots to make code look cooler
         update_info(member_id)
 
 
-
-#menu functions below
-#PS remember to fix check credentials
-# The system then verifies if the user has any overdue books. A user can  only borrow up to 5 books and
-# must have no overdue books to be eligible for a new loan, remember to add this
-#this is for member menu rember that.
-#1- View Books borrowed(Includes book information, due date and overdue fees.completed
-# Fix View books, needs to show due date of book in a countdown.
-#2- Search for Books(Search by title, author, genre, ISBN and must show whether the book is available or not).completed
-#3- View fee's(Overdue fees, total fees)
-#4- Update Info(Change password, change name)
-#5- Logout,it logs out, duh
-#6 Add quit option to admin stuff when
-#7 Fix wrong input bug.
-#8 fix the bug in Book added date format
-#9 Change SDM menu to allow for admin capabilities as well.
-def superadmin():
-    print('add a new admin account:')
-    username = input("username: ")
-    password = input('password: ')
-    encrypted_password = encrypt_password(password)
-
-    with open('login.txt', 'r') as file:
-        for line in file:
-            if line.startswith(username):
-                print('account already exist, run the program again')
-                return
-
-    with open("login.txt", 'a+') as file:
-        file.write(f'{username},{encrypted_password}\n')
+#MENUS BELOW
+def superadminmenu():
+    print('''
+    =====================================
+    ||  Welcome to the Admin System    ||
+    =====================================
+    ||                                 ||
+    ||  1. Add Admin                   ||
+    ||  2. View Admins                 ||
+    ||  3. logout                      ||
+    ||                                 ||
+    ===================================== 
+    ''')
+    choice = int(input('Enter your choice: '))
+    if choice == 1:
+        add_admin()
+    elif choice == 2:
+        view_admin()
+    elif choice == 3:
+        login()
+        return
 def ADMmenu():  # Admin perms
     print('''
 =====================================
@@ -859,12 +1098,12 @@ def login():
     if check_credentials('login.txt', username, encrypted_password):
         if username.startswith('SDM'):
             print('You are logged in as super admin\n')
-            superadmin()
+            superadminmenu()
             for i in range(20):
                 repeat = input('Would you like to add another admin?(Y/N): ')
                 repeat = repeat.upper()
                 if repeat == 'Y':
-                    superadmin()
+                    superadminmenu()
                 else:
                     return
         elif username.startswith('ADM'):
@@ -904,7 +1143,7 @@ def login():
                     return
     else:
         print('Incorrect username or password')
-        exit()
+        login()
 
 start_superadmin()
 # librarian_menu()
