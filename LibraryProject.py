@@ -435,9 +435,230 @@ def edit_logs():
                 print(f"Loan with ID {loanid} has been updated.")
             else:
                 file.write(line)
+def bookviewer_m(member_id):
+    borrowed_books = []
+#This is to read the logs to find books borrowed by a member.
+    with open ('loan_logs.txt', 'r') as loan_file:
+        for line in loan_file:
+            if f"Member ID: {member_id}" in line:
+                parts = line.strip().split(',')
+                loaned_bookisbn = parts[1].split(':')[1].strip()
+                borrowed_books.append(loaned_bookisbn)
+    borrowed_books_titles = []
+    with open ('Book_catalogue.txt', 'r') as book_file:
+        for line in book_file:
+            book = eval(line.strip())
+            if book['ISBN'] in borrowed_books and book['Available'] == 'No':
+                borrowed_books_titles.append(book['Book Name'])
+    return borrowed_books_titles
+def booksearch_m(member_id):
+    print('''
+    ==========================
+    || Search catalogue by: ||
+    ||                      ||
+    || 1. Title             ||
+    || 2. Genre             ||
+    || 3. Author            ||
+    || 4. ISBN              ||
+    || 5. Back              ||
+    ||                      ||
+    ==========================''')
+ #ascii art makes everything look nicer
+    choice = int(input('Enter your choice: '))
+
+    if choice == 1:
+        search_term = input("Enter the title of the book you're looking for: ").strip().lower()
+    elif choice == 2:
+        search_term = input("Enter the genre of the book you're looking for: ").strip().lower()
+    elif choice == 3:
+        search_term = input("Enter the author of the book you're looking for: ").strip().lower()
+    elif choice == 4:
+        search_term = input("Enter the ISBN of the book you're looking for: ").strip().lower()
+    elif choice == 5:
+        member_menu(member_id)
+        return
+    else:
+        print("Invalid choice. Please try again.")
+        booksearch_m(member_id)
+        return
+
+    with open('Book_catalogue.txt', 'r') as file:
+        found = False
+        for line in file:
+            book = eval(line.strip())
+            if choice == 1 and search_term in book['Book Name'].strip().lower():
+                print(book)
+                found = True
+                print("Would you like to search for another book?")
+                choice2 = input('Y/N: ').strip().upper()
+                if choice2 == 'Y':
+                    booksearch_m(member_id)
+                else:
+                    member_menu(member_id)
+            elif choice == 2 and search_term in book['Genre'].strip().lower():
+                print(book)
+                found = True
+                print("Would you like to search for another book?")
+                choice2 = input('Y/N: ').strip().upper()
+                if choice2 == 'Y':
+                    booksearch_m(member_id)
+                else:
+                    member_menu(member_id)
+            elif choice == 3 and search_term in book['Author'].strip().lower():
+                print(book)
+                found = True
+                print("Would you like to search for another book?")
+                choice2 = input('Y/N: ').strip().upper()
+                if choice2 == 'Y':
+                    booksearch_m(member_id)
+                else:
+                    member_menu(member_id)
+            elif choice == 4 and search_term in book['ISBN'].strip().lower():
+                print(book)
+                found = True
+                print("Would you like to search for another book?")
+                choice2 = input('Y/N: ').strip().upper()
+                if choice2 == 'Y':
+                    booksearch_m(member_id)
+                else:
+                    member_menu(member_id)
+
+    if not found:
+        print("No matching books found. Would you like to try again?")
+        choice3 = input('Y/N: ').strip().upper()
+        if choice3 == 'Y':
+            booksearch_m(member_id)
+        else:
+            member_menu(member_id)
+def viewfees_m(member_id):
+    total_fees = 0
+    loans = []
+
+    def calculate_fee(days_late):
+        if days_late == 1:
+            return 2
+        elif days_late == 2:
+            return 3
+        elif days_late == 3:
+            return 4
+        elif days_late == 4:
+            return 5
+        elif days_late == 5:
+            return 6
+        else:
+            return 10
+
+    with open('loan_logs.txt', 'r') as loan_file:
+        for line in loan_file:
+            if f"Member ID: {member_id}" in line:
+                loans.append(line.strip())
+
+    if not loans:
+        print("No loans found for this user.")
+        return
+
+    for loan in loans:
+        try:
+            loan_date_str = loan.split("Date Loaned: ")[1].split(",")[0]
+            loan_date = datetime.datetime.strptime(loan_date_str.strip(), "%Y/%m/%d").date()
+        except (IndexError, ValueError):
+            print(f"Error processing loan entry: {loan}")
+            continue
+
+        current_date = datetime.datetime.now().date()
+        days_since_book_borrowed = (current_date - loan_date).days
+
+        with open('return_logs.txt', 'r') as return_file:
+            returned = False
+            returned_date_str = None
+            for return_line in return_file:
+                if f"Member ID: {member_id}" in return_line and "Date Returned" in return_line:
+                    returned_date_str = return_line.split("Date Returned: ")[1].split(",")[0]
+                    returned = True
+                    break
+
+        if returned:
+            return_date = datetime.datetime.strptime(returned_date_str.strip(), "%Y/%m/%d").date()
+            days_late = (return_date - loan_date).days - 14
+            if days_late > 0:
+                total_fees += calculate_fee(days_late)
+        else:
+            days_left = 14 - days_since_book_borrowed
+            if days_left < 0:
+                days_late = abs(days_left)
+                total_fees += calculate_fee(days_late)
+
+    print(f"Total fees: {total_fees} RM")
+    time.sleep(2)
+    member_menu(member_id)
+def update_info(member_id):
+    print('''
+    ==========================
+    || Update Info:         ||
+    ||                      ||
+    || 1. Change Password   ||
+    || 2. Change Name       ||
+    || 3. Back              ||
+    ||                      ||
+    ==========================''')
+    choice = int(input('Enter your choice: '))
+
+    if choice == 1:
+        new_password = input('Enter new password: ')
+        encrypted_password = encrypt_password(new_password)
+
+        with open('memberlogin.txt', 'r') as file:
+            lines = file.readlines()
+
+        with open('memberlogin.txt', 'w') as file:
+            for line in lines:
+                if line.startswith(f'ID: {member_id}'):
+                    file.write(f'ID: {member_id},Password: {encrypted_password}\n')
+                else:
+                    file.write(line)
+        print('Password updated successfully.')
+
+    elif choice == 2:
+        new_name = input('Enter new name: ')
+
+        with open('member_info.txt', 'r') as file:
+            lines = file.readlines()
+
+        with open('member_info.txt', 'w') as file:
+            for line in lines:
+                if line.startswith(f'ID: {member_id}'):
+                    parts = line.strip().split(',')
+                    file.write(
+                        f'ID: {parts[0].split(":")[1].strip()},Name: {new_name},Gender: {parts[2].split(":")[1].strip()}\n')
+                else:
+                    file.write(line)
+        print('Name updated successfully.')
+
+    elif choice == 3:
+        member_menu(member_id)
+        return
+
+    else:
+        print('Invalid choice. Please try again.')
+        update_info(member_id)
+
+
 
 #menu functions below
 #PS remember to fix check credentials
+# The system then verifies if the user has any overdue books. A user can  only borrow up to 5 books and
+# must have no overdue books to be eligible for a new loan, remember to add this
+#this is for member menu rember that.
+#1- View Books borrowed(Includes book information, due date and overdue fees.completed
+# Fix View books, needs to show due date of book in a countdown.
+#2- Search for Books(Search by title, author, genre, ISBN and must show whether the book is available or not).completed
+#3- View fee's(Overdue fees, total fees)
+#4- Update Info(Change password, change name)
+#5- Logout,it logs out, duh
+#6 Add quit option to admin stuff when
+#7 Fix wrong input bug.
+#8 fix the bug in Book added date format
+#9 Change SDM menu to allow for admin capabilities as well.
 def superadmin():
     print('add a new admin account:')
     username = input("username: ")
@@ -568,6 +789,41 @@ def librarian_menu():
             print("Invalid choice. Please try again.")
 
         time.sleep(2)
+def member_menu(member_id):
+    print('''
+    ================================================================
+    ||  Welcome to the Brickfields Kuala Lumpur Community Library.||
+    ==============================================================||
+    ||                                                            ||
+    ||  1. View Books borrowed                                    || 
+    ||  2. Search for Books                                       ||
+    ||  3. View fee's                                             ||
+    ||  4. Update Info                                            ||
+    ||  5. Logout                                                 ||
+    ||                                                            ||
+    ================================================================
+    ''')
+    choice = int(input('Enter your choice: '))
+    if choice == 1:
+        borrowed_books = bookviewer_m(member_id)
+        if borrowed_books:
+            print('Books currently in your inventory: ')
+            for book_title in borrowed_books:
+                print(book_title)
+        else:
+            print('No books currently in your inventory.')
+    elif choice == 2:
+        booksearch_m(member_id)
+    elif choice == 3:
+        viewfees_m(member_id)
+    elif choice == 4:
+        update_info(member_id)
+    elif choice == 5:
+        login()
+        return
+    else:
+        print('Invalid choice, please try again.')
+        member_menu(member_id)
 def check_credentials(file_path, username, encrypted_password):
     try:
         with open(file_path, 'r') as file:
@@ -625,7 +881,15 @@ def login():
         if username.startswith('M'):
             name = get_name('member_info.txt', username)
             print(f'You are logged in as {name}')
-            # Add member-specific menu or actions here
+            member_menu(username)
+            for i in range(20):
+                repeat = input('Return to member menu?(Y/N): ')
+                repeat = repeat.upper()
+                if repeat == 'Y':
+                    member_menu(username)
+                    pass
+                else:
+                    return
     elif check_credentials('stafflogin.txt', username, encrypted_password):
         if username.startswith('LB'):
             name = get_name('staff_info.txt', username)
