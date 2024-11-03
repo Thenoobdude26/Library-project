@@ -110,7 +110,7 @@ def search_staff():
         for line in file:
             SU, SB, SG, SS, SP = line.strip().split(',')
             if SU == Username:
-                print(f"username: {SU}, birthday: {SB}, gender: {SG}, salary: {SS}, position: {SP}")
+                print(f"{SU},{SB},{SG},{SS},{SP}")
 def edit_staff():
     # Read all lines from the file
     with open('staff_info.txt', 'r') as file:
@@ -131,11 +131,11 @@ def edit_staff():
                 new_username = input('Enter new username: ')
                 new_password = input('Enter new password:')
                 encrypted_password = encrypt_password(new_password)
-                birthday = input('Enter new birthday (DD/MM/YYYY): ')
+                name = input('Enter new birthday (DD/MM/YYYY): ')
                 gender = input('Enter new gender (male/female): ')
                 salary = input('Enter new salary: ')
                 position = input('Enter new position: ')
-                file.write(f'{new_username}, {birthday}, {gender}, {salary}, {position}\n')
+                file.write(f'ID: {new_username},Name: {name},Gender: {gender},Salary: {salary},Position: {position}\n')
             else:
                 file.write(line)
 
@@ -143,7 +143,7 @@ def edit_staff():
         file.seek(0)
         for line in lines2:
             if line.startswith(edit_username):
-                file.write(f'{new_username}, {encrypted_password}\n')
+                file.write(f'ID: {new_username},Password: {encrypted_password}\n')
             else:
                 file.write(line)
 def remove_staff():
@@ -197,7 +197,7 @@ def search_member():
         for line in file:
             SU, SB, SG = line.strip().split(',')
             if SU == Username:
-                print(f"username: {SU}, birthday: {SB}, gender: {SG}")
+                print(f"{SU},{SB},{SG}")
 def edit_member():
     # Read all lines from the file
     with open('member_info.txt', 'r') as file:
@@ -218,9 +218,9 @@ def edit_member():
                 new_username = input('Enter new username: ')
                 new_password = input('Enter new password: ')
                 encrypted_password = encrypt_password(new_password)
-                birthday = input('Enter new birthday (DD/MM/YYYY): ')
+                name = input('Enter new birthday (DD/MM/YYYY): ')
                 gender = input('Enter new gender (male/female): ')
-                file.write(f'{new_username},{birthday},{gender}\n')
+                file.write(f'ID: {new_username},Name: {name},Gender: {gender}\n')
             else:
                 file.write(line)
 
@@ -228,7 +228,7 @@ def edit_member():
         file.seek(0)
         for line in lines2:
             if line.startswith(edit_username):
-                file.write(f'{new_username}, {encrypted_password}\n')
+                file.write(f'ID: {new_username},Password: {encrypted_password}\n')
             else:
                 file.write(line)
 def delete_member():
