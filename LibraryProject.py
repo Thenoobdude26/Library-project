@@ -191,12 +191,21 @@ def view_member():
         for line in file:
             print(line.strip())
 def search_member():
+    # Open the 'member_info.txt' file in read mode
     with open('member_info.txt', 'r') as file:
-        Username = input('enter the ID you want to search:\n ')
+        username = input('Enter the ID you want to search:\n ')
         for line in file:
-            SU, SB, SG = line.strip().split(',')
-            if SU == Username:
-                print(f"username: {SU}, birthday: {SB}, gender: {SG}")
+            # Split the line into components based on commas
+            parts = line.strip().split(',')
+
+            # Check if the first component (ID) matches the user input
+            if parts[0].split(':')[1].strip() == username:
+                print(
+                    f"ID: {parts[0].split(':')[1].strip()}, Name: {parts[1].split(':')[1].strip()}, Gender: {parts[2].split(':')[1].strip()}")
+                return
+
+    # If no match is found, print "Member not found."
+    print("Member not found.")
 def edit_member():
     # Read all lines from the file
     with open('member_info.txt', 'r') as file:
@@ -295,7 +304,7 @@ def view_Allbooks():
     with open('Book_catalogue.txt', 'r') as file:
         for line in file:
             print(line)
-    print("Press any key to return to the main menu.")
+    print("Press enter to return to the main menu.")
     input()
     print("Returning to main menu.")
     time.sleep(1)
@@ -466,7 +475,7 @@ def view_logs():
         for line in file:
             print(line.strip())
 
-    print("Press any key to return to the main menu.")
+    print("Press Enter to return to the main menu.")
     input()
     print("Returning to main menu.")
     time.sleep(1)
@@ -488,7 +497,7 @@ def search_loan():
 
     if not loans:
         print("No Loans found for user.")
-        print("Press any key to return to the main menu.")
+        print("Press Enter to return to the main menu.")
         input()
         print("Returning to main menu.")
         time.sleep(1)
@@ -539,7 +548,7 @@ def search_loan():
                 else:
                     fee = 10
                 print(f"Late fee: {fee} RM")
-                print("Press any key to return to the main menu.")
+                print("Press Enter to return to the main menu.")
                 input()
                 print("Returning to main menu.")
                 time.sleep(1)
@@ -552,7 +561,7 @@ def search_loan():
             else:
                 print("No late fee.")
             print(f"Date Returned: {return_date_str}")
-            print("Press any key to return to the main menu.")
+            print("Press Enter to return to the main menu.")
             input()
             print("Returning to main menu.")
             time.sleep(1)
@@ -581,7 +590,7 @@ def search_loan():
                 else:
                     fee = 10
                 print(f"Late fee: {fee} RM")
-                print("Press any key to return to the main menu.")
+                print("Press Enter to return to the main menu.")
                 input()
                 print("Returning to main menu.")
                 time.sleep(1)
@@ -593,7 +602,7 @@ def search_loan():
                 librarian_menu()
     else:
         print("No recent loans found.")
-        print("Press any key to return to the main menu.")
+        print("Press Enter to return to the main menu.")
         input()
         print("Returning to main menu.")
         time.sleep(1)
@@ -832,7 +841,7 @@ def viewfees_m(member_id):
                 total_fees += calculate_fee(days_late)
 
     print(f"Total fees: {total_fees} RM")
-    print("Press any key to return to the main menu.")
+    print("Press Enter to return to the main menu.")
     input()
     time.sleep(1)
     print(".")
@@ -971,6 +980,8 @@ def LBS():
         edit_staff()
     elif LBSchoice == 5:
         remove_staff()
+    elif LBSchoice == 6:
+        ADMmenu()
 def LBM():
     print('''
 =====================================
@@ -995,8 +1006,8 @@ def LBM():
         edit_member()
     elif LBMchoice == 5:
         delete_member()
-    elif LBMchoice > 5 or LBMchoice < 1:
-        return
+    elif LBMchoice == 6:
+        ADMmenu()
 def librarian_menu():
     while True:
         print("\n")
@@ -1120,7 +1131,7 @@ def login():
                 if repeat == 'Y':
                     superadminmenu()
                 else:
-                    return
+                    login()
         elif username.startswith('ADM'):
             print(f'You are logged in as {username}, enter your selection:')
             ADMmenu()
@@ -1130,7 +1141,7 @@ def login():
                 if repeat == 'Y':
                     ADMmenu()
                 else:
-                    return
+                    login()
     elif check_credentials('memberlogin.txt', username, encrypted_password):
         if username.startswith('M'):
             name = get_name('member_info.txt', username)
@@ -1143,7 +1154,7 @@ def login():
                     member_menu(username)
                     pass
                 else:
-                    return
+                    login()
     elif check_credentials('stafflogin.txt', username, encrypted_password):
         if username.startswith('LB'):
             name = get_name('staff_info.txt', username)
@@ -1155,7 +1166,7 @@ def login():
                 if repeat == 'Y':
                     librarian_menu()
                 else:
-                    return
+                    login()
     else:
         print('Incorrect username or password')
         login()

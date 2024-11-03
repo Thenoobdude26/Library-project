@@ -1,1 +1,2 @@
+ID: LB001,Name: Elias Abdurabu Nasser,Gender: male,Salary: 1200,Position: Head Librarian
 ID: LB002,Name: Jeremiah,Gender: male,Salary: 120,Position: Librarian Aid
