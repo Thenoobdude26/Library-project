@@ -9,7 +9,7 @@ def encrypt_password(password):
 
 
 
-#important Functions below
+#important Functions below.
 def add_admin():
     print('add a new admin account:')
     username = input("username: ")
