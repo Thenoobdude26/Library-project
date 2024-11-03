@@ -108,9 +108,9 @@ def search_staff():
     with open('staff_info.txt', 'r') as file:
         file.seek(0)
         for line in file:
-            SU, SB, SG, SS, SP = line.strip().split(',')
+            SU, SN, SG, SS, SP = line.strip().split(',')
             if SU == Username:
-                print(f"{SU},{SB},{SG},{SS},{SP}")
+                print(f"{SU},{SN},{SG},{SS},{SP}")
 def edit_staff():
     # Read all lines from the file
     with open('staff_info.txt', 'r') as file:
@@ -195,9 +195,9 @@ def search_member():
     with open('member_info.txt', 'r') as file:
         Username = input('enter the ID you want to search:\n ')
         for line in file:
-            SU, SB, SG = line.strip().split(',')
+            SU, SN, SG = line.strip().split(',')
             if SU == Username:
-                print(f"{SU},{SB},{SG}")
+                print(f"{SU},{SN},{SG}")
 def edit_member():
     # Read all lines from the file
     with open('member_info.txt', 'r') as file:
@@ -213,8 +213,8 @@ def edit_member():
         for line in lines:
             if line.startswith(edit_username):
                 lines = line.strip()
-                SU, SB, SG = lines.split(',')
-                print(f"Current details: username:{SU}, birthday: {SB}, Gender: {SG}")
+                SU, SN, SG = lines.split(',')
+                print(f"Current details: {SU},{SN},{SG}")
                 new_username = input('Enter new username: ')
                 new_password = input('Enter new password: ')
                 encrypted_password = encrypt_password(new_password)
