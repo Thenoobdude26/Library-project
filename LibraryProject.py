@@ -226,9 +226,9 @@ def edit_member():
                 new_username = input('Enter new username: ')
                 new_password = input('Enter new password: ')
                 encrypted_password = encrypt_password(new_password)
-                birthday = input('Enter new birthday (DD/MM/YYYY): ')
+                name = input('Enter new name: ')
                 gender = input('Enter new gender (male/female): ')
-                file.write(f'{new_username},{birthday},{gender}\n')
+                file.write(f'{new_username},{name},{gender}\n')
             else:
                 file.write(line)
 
