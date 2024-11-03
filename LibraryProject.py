@@ -639,20 +639,20 @@ def edit_logs():
                 file.write(line)
 def bookviewer_m(member_id):
     borrowed_books = []
-#This is to read the logs to find books borrowed by a member.
-    with open ('loan_logs.txt', 'r') as loan_file:
+    # This is to read the logs to find books borrowed by a member.
+    with open('loan_logs.txt', 'r') as loan_file:
         for line in loan_file:
             if f"Member ID: {member_id}" in line:
                 parts = line.strip().split(',')
                 loaned_bookisbn = parts[1].split(':')[1].strip()
                 borrowed_books.append(loaned_bookisbn)
     borrowed_books_titles = []
-    with open ('Book_catalogue.txt', 'r') as book_file:
+    with open('Book_catalogue.txt', 'r') as book_file:
         for line in book_file:
             book = eval(line.strip())
             if book['ISBN'] in borrowed_books and book['Available'] == 'No':
                 borrowed_books_titles.append(book['Book Name'])
-    return {borrowed_books_titles}
+    return borrowed_books_titles
 def booksearch_m(member_id):
     print('''
     ==========================
