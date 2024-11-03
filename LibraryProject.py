@@ -461,6 +461,19 @@ def return_book():
     with open('return_logs.txt', 'a') as log_file:
         log_file.write(f" RETURNID: {returnID}, ISBN: {isbn}, Member ID: {returner}, Date Returned: {datereturned}\n")
 
+    # Calculate late fees
+    with open('loan_logs.txt', 'r') as loan_file:
+        for line in loan_file:
+            if f"Member ID: {returner}" in line and f"ISBN: {isbn}" in line:
+                loan_date_str = line.split("Date Loaned: ")[1].split(",")[0]
+                loan_date = datetime.datetime.strptime(loan_date_str.strip(), "%Y/%m/%d").date()
+                return_date = datetime.datetime.strptime(datereturned.strip(), "%Y/%m/%d").date()
+                days_late = (return_date - loan_date).days - 14
+                if days_late > 0:
+                    fee_amount = min(10, 2 + (days_late - 1))  # Example fee calculation
+                    log_fee(returner, isbn, fee_amount, datereturned)
+                    print(f"Late fee of {fee_amount} RM has been logged for Member ID: {returner}")
+
     print("Would you like to return to the main menu?")
     choice = input('Y/N: ')
     if choice == 'Y':
@@ -689,22 +702,48 @@ def edit_logs():
 
             else:
                 file.write(line)
+def log_fee(member_id, isbn, fee_amount, date_incurred):
+    with open('fees.txt', 'a') as fee_file:
+        fee_file.write(f"Member ID: {member_id}, ISBN: {isbn}, Fee Amount: {fee_amount}, Date Incurred: {date_incurred}\n")
 def bookviewer_m(member_id):
     borrowed_books = []
-    # This is to read the logs to find books borrowed by a member.
+    returned_books = []
+
+    # Read the loan logs to find books borrowed by a member
     with open('loan_logs.txt', 'r') as loan_file:
         for line in loan_file:
             if f"Member ID: {member_id}" in line:
                 parts = line.strip().split(',')
                 loaned_bookisbn = parts[1].split(':')[1].strip()
-                borrowed_books.append(loaned_bookisbn)
-    borrowed_books_titles = []
+                date_loaned = parts[3].split(':')[1].strip()
+                due_date = (datetime.datetime.strptime(date_loaned, "%Y/%m/%d") + datetime.timedelta(days=14)).strftime("%Y/%m/%d")
+                borrowed_books.append((loaned_bookisbn, due_date))
+
+    # Read the return logs to find books returned by the member
+    with open('return_logs.txt', 'r') as return_file:
+        for line in return_file:
+            if f"Member ID: {member_id}" in line:
+                parts = line.strip().split(',')
+                returned_bookisbn = parts[1].split(':')[1].strip()
+                returned_books.append(returned_bookisbn)
+
+    # Filter out returned books from borrowed books
+    currently_borrowed_books = [(isbn, due_date) for isbn, due_date in borrowed_books if isbn not in returned_books]
+
+    borrowed_books_details = []
     with open('Book_catalogue.txt', 'r') as book_file:
         for line in book_file:
             book = eval(line.strip())
-            if book['ISBN'] in borrowed_books and book['Available'] == 'No':
-                borrowed_books_titles.append(book['Book Name'])
-    return borrowed_books_titles
+            for isbn, due_date in currently_borrowed_books:
+                if book['ISBN'] == isbn and book['Available'] == 'No':
+                    borrowed_books_details.append((book['Book Name'], due_date))
+
+    if borrowed_books_details:
+        print('Books currently in your inventory:')
+        for book_title, due_date in borrowed_books_details:
+            print(f"Title: {book_title}, Due Date: {due_date}")
+    else:
+        print('No books currently in your inventory.')
 def booksearch_m(member_id):
     print('''
     ==========================
@@ -1113,13 +1152,14 @@ def member_menu(member_id):
     ''')
     choice = int(input('Enter your choice: '))
     if choice == 1:
-        borrowed_books = bookviewer_m(member_id)
-        if borrowed_books:
-            print('Books currently in your inventory: ')
-            for book_title in borrowed_books:
-                print(book_title)
-        else:
-            print('No books currently in your inventory.')
+        bookviewer_m(member_id)
+        # borrowed_books = bookviewer_m(member_id)
+        # if borrowed_books:
+        #     print('Books currently in your inventory: ')
+        #     for book_title in borrowed_books:
+        #         print(book_title)
+        # else:
+        #     print('No books currently in your inventory.')
     elif choice == 2:
         booksearch_m(member_id)
     elif choice == 3:
