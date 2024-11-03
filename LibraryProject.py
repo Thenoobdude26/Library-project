@@ -191,7 +191,7 @@ def view_member():
         for line in file:
             print(line.strip())
 def search_member():
-    # Open the 'member_info.txt' file in read mode
+    # Open the 'member_info.txt' file in read mode.
     with open('member_info.txt', 'r') as file:
         username = input('Enter the ID you want to search:\n ')
         for line in file:
