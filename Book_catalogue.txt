@@ -1,2 +1,3 @@
 {'Book Name': 'To Kill A Mocking Bird', 'ISBN': '9780446310789', 'Author': 'Harper lee', 'Genre': 'Southern Gothic', 'Date Published': '1960/07/11', 'Date Added': '2024-10-30', 'Available': 'Yes'}
 {'Book Name': 'The Python Language Reference Manual', 'ISBN': '9781906966133', 'Author': 'Fred L. Drake Jr', 'Genre': 'Programming', 'Date Published': '2011/01/01', 'Date Added': '2024-10-30', 'Available': 'No'}
+{'Book Name': 'The Infinite and the Divine', 'ISBN': '9781789998320', 'Author': 'Robert Rath', 'Genre': 'Sci-Fi', 'Date Published': '2020/10/10', 'Date Added': '2024-11-03', 'Available': 'Yes'}

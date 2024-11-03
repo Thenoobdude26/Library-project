@@ -153,20 +153,42 @@ def remove_staff():
         lines2 = file2.readlines()
 
     remove_username = input('Enter the ID you want to remove:\n ')
+    new_remove = f"ID: {remove_username}"
 
     with open('staff_info.txt', 'w') as file:
-
+        file.seek(0)
         for line in lines:
             lines = line.strip()
-            if not line.startswith(remove_username):
+            if not line.startswith(new_remove):
                 file.write(line)
 
     with open('stafflogin.txt', 'w') as file:
-
+        file.seek(0)
         for line in lines2:
             lines = line.strip()
-            if not line.startswith(remove_username):
+            if not line.startswith(new_remove):
                 file.write(line)
+    # # read all line in file and save it in lines
+    # with open('staff_info.txt', 'r') as file:
+    #     lines = file.readlines()
+    # with open('stafflogin.txt', 'r') as file2:
+    #     lines2 = file2.readlines()
+    #
+    # remove_username = input('Enter the ID you want to remove:\n ')
+    #
+    # with open('staff_info.txt', 'w') as file:
+    #
+    #     for line in lines:
+    #         lines = line.strip()
+    #         if not line.startswith(remove_username):
+    #             file.write(line)
+    #
+    # with open('stafflogin.txt', 'w') as file:
+    #
+    #     for line in lines2:
+    #         lines = line.strip()
+    #         if not line.startswith(remove_username):
+    #             file.write(line)
 def add_member():
     print('Add a new member account:')
     username = input('New username: ')
@@ -247,19 +269,40 @@ def delete_member():
         lines2 = file2.readlines()
 
     remove_username = input('Enter the ID you want to remove:\n ')
+    new_remove = f"ID: {remove_username}"
 
     with open('member_info.txt', 'w') as file:
-
+        file.seek(0)
         for line in lines:
             lines = line.strip()
-            if not line.startswith(remove_username):
+            if not line.startswith(new_remove):
                 file.write(line)
 
-    with open('memberlogin.txt', 'w') as file2:
+    with open('memberlogin.txt', 'w') as file:
+        file.seek(0)
         for line in lines2:
-            file2line = line.strip()
-            if not remove_username.startswith(remove_username):
-                file2.write(line)
+            lines = line.strip()
+            if not line.startswith(new_remove):
+                file.write(line)
+    # with open('member_info.txt', 'r') as file:
+    #     lines = file.readlines()
+    # with open('memberlogin.txt', 'r') as file2:
+    #     lines2 = file2.readlines()
+    #
+    # remove_username = input('Enter the ID you want to remove:\n ')
+    #
+    # with open('member_info.txt', 'w') as file:
+    #
+    #     for line in lines:
+    #         lines = line.strip()
+    #         if not line.startswith(remove_username):
+    #             file.write(line)
+    #
+    # with open('memberlogin.txt', 'w') as file2:
+    #     for line in lines2:
+    #         file2line = line.strip()
+    #         if not remove_username.startswith(remove_username):
+    #             file2.write(line)
 def AddBook():
     print("Insert Book details Below: ")
     print("------------------------------")
