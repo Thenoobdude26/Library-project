@@ -65,15 +65,13 @@
 <h2>System Requirements</h2>
 <ul>
     <li>Python 3.x</li>
-    <li>No additional libraries required (all functionality is built using Python's standard libraries).</li>
     <li>Data is stored in text files.</li>
 </ul>
 
 <h2>How to Run</h2>
 <ol>
-    <li>Clone this repository.</li>
     <li>Navigate to the project directory.</li>
-    <li>Run <code>python Libraryproject.py</code> to start the application.</li>
+    <li>Run <code>python LibraryProject.py</code> to start the application.</li>
 </ol>
 
 <h2>Data Storage</h2>
