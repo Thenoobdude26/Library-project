@@ -234,31 +234,31 @@ def edit_member():
         lines = file.readlines()
     with open('memberlogin.txt', 'r') as file:
         lines2 = file.readlines()
-
+ 
     # Get the username to edit
     edit_username = input('Enter the ID you want to edit:\n ')
-
+    new_username2 = f"ID: {edit_username}"
+ 
     # Open the file in write mode to update it
     with open('member_info.txt', 'w') as file:
         for line in lines:
-            if line.startswith(edit_username):
+            if line.startswith(new_username2):
                 lines = line.strip()
                 SU, SN, SG = lines.split(',')
-                print(f"Current details: username:{SU},Name: {SN},Gender: {SG}")
-                new_username = input('Enter new username: ')
+                print(f"Current details:{SU},{SN},{SG}")
                 new_password = input('Enter new password: ')
                 encrypted_password = encrypt_password(new_password)
                 name = input('Enter new name: ')
                 gender = input('Enter new gender (male/female): ')
-                file.write(f'{new_username},{name},{gender}\n')
+                file.write(f'ID: {edit_username},Name: {name},Gender: {gender}\n')
             else:
                 file.write(line)
-
+ 
     with open('memberlogin.txt', 'w') as file:
         file.seek(0)
         for line in lines2:
             if line.startswith(edit_username):
-                file.write(f'{new_username}, {encrypted_password}\n')
+                file.write(f'ID: {edit_username},Password: {encrypted_password}\n')
             else:
                 file.write(line)
 def delete_member():
