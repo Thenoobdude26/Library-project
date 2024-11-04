@@ -120,7 +120,7 @@ def edit_staff():
         lines2 = file.readlines()
 
     # Get the username to edit
-    edit_username = input('Enter the ID you want to edit:\n ')
+    edit_username = input('Enter the ID of the member you want to edit:\n ')
 
     # Open the file in write mode to update it
     with open('staff_info.txt', 'w') as file:
@@ -705,6 +705,15 @@ def edit_logs():
 def log_fee(member_id, isbn, fee_amount, date_incurred):
     with open('fees.txt', 'a') as fee_file:
         fee_file.write(f"Member ID: {member_id}, ISBN: {isbn}, Fee Amount: {fee_amount}, Date Incurred: {date_incurred}\n")
+def clear_fees():
+    member_id = input("Enter the Member ID to clear fees: ")
+    with open('fees.txt', 'r') as fee_file:
+        lines = fee_file.readlines()
+
+    with open('fees.txt', 'w') as fee_file:
+        for line in lines:
+            if f"Member ID: {member_id}" not in line:
+                fee_file.write(line)
 def bookviewer_m(member_id):
     borrowed_books = []
     returned_books = []
@@ -1090,6 +1099,7 @@ def LBM():
         delete_member()
     elif LBMchoice == 6:
         ADMmenu()
+
 def librarian_menu():
     while True:
         print("\n")
@@ -1106,7 +1116,8 @@ def librarian_menu():
         print("||  7. View Loan Logs              ||")
         print("||  8. Search Loan                 ||")
         print("||  9. Edit Logs                   ||")
-        print("|| 10. Logout                      ||")
+        print("|| 10. Clear Fees                  ||")
+        print("|| 11. Logout                      ||")
         print("||                                 ||")
         print("=====================================")
         choice = input("Enter your choice: ")
@@ -1130,6 +1141,8 @@ def librarian_menu():
         elif choice == '9':
             edit_logs()
         elif choice == '10':
+            clear_fees()
+        elif choice == '11':
             login()
             return
         else:
